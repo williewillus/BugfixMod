@@ -46,6 +46,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
             settings.SnowballFixEnabled = config.get("COMMON","SnowballFixEnabled",true).getBoolean(true);
 
             settings.XPFixEnabled = config.get("CLIENT","XPFixEnabled",true).getBoolean(true);
+            settings.ChatOpacityFixEnabled = config.get("CLIENT","ChatOpacityFixEnabled",true).getBoolean(true);
 
             config.save();
 
@@ -79,6 +80,16 @@ public class BugfixModClassTransformer implements IClassTransformer {
                 return SnowballFixPatcher.patch(bytes, isObf);
             } else {
                 System.out.println("SnowballFix disabled, skipping patch.");
+
+                return bytes;
+            }
+        }
+
+        if (par1.equals("net.minecraft.client.gui.GuiNewChat") || par1.equals("bao")) {
+            if (settings.ChatOpacityFixEnabled) {
+                return ChatOpacityFixPatcher.patch(bytes, isObf);
+            } else {
+                System.out.println("ChatOpacityFix disabled, skipping patch");
 
                 return bytes;
             }

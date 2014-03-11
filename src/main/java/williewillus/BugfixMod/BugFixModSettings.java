@@ -7,4 +7,5 @@ public class BugFixModSettings {
     public boolean XPFixEnabled;
     public boolean ArrowFixEnabled;
     public boolean SnowballFixEnabled;
+    public boolean ChatOpacityFixEnabled;
 }

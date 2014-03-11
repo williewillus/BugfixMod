@@ -23,7 +23,7 @@ public class BugfixMod extends DummyModContainer {
         myMeta.authorList = Arrays.asList(new String[]{"williewillus"});
         myMeta.description = "Combination of all my other bugfix mods.";
         myMeta.modId = "BugfixMod";
-        myMeta.version = "0.1.0";
+        myMeta.version = "0.2.0";
         myMeta.name = "BugfixMod";
         myMeta.url = "https://github.com/williewillus/BugfixMod";
     }
