@@ -1,0 +1,21 @@
+{
+  "modListVersion": 2,
+  "modList": [{
+    "modid": "BugfixMod",
+    "name": "BugFixMod",
+    "description": "Combination of all my other bugfix mods.",
+    "version": "${mod_version}",
+    "mcversion": "${minecraft_version}",
+    "url": "https://github.com/williewillus/BugfixMod",
+    "updateUrl": "",
+    "authorList": [ "williewillus" ],
+    "credits": "CuleGooner, Forge, Mojang",
+    "logoFile": "",
+    "screenshots": [],
+    "parent": "",
+    "requiredMods": [],
+    "dependencies": [],
+    "dependants": [],
+    "useDependencyInformation": "true"
+  }]
+}
