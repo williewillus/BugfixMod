@@ -27,8 +27,7 @@ public class ArrowFixPatcher {
         Iterator<MethodNode> methods = classNode.methods.iterator();
 
 
-
-        while(methods.hasNext()) {
+        while (methods.hasNext()) {
             MethodNode m = methods.next();
 
             if (m.name.equals(targetMethodName) && m.desc.equals(targetMethodDesc)) {
@@ -44,7 +43,7 @@ public class ArrowFixPatcher {
                 while (instructionSet.hasNext()) {
                     currentInstruction = instructionSet.next();
                     if (currentInstruction instanceof FieldInsnNode) {
-                        if (((FieldInsnNode)currentInstruction).name.equals(targetFieldName) && currentInstruction.getOpcode() == Opcodes.PUTFIELD) {
+                        if (((FieldInsnNode) currentInstruction).name.equals(targetFieldName) && currentInstruction.getOpcode() == Opcodes.PUTFIELD) {
                             System.out.println("Found entry point!");
                             InsnList toInject = new InsnList();
 
@@ -73,7 +72,7 @@ public class ArrowFixPatcher {
                                 toInject.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "net/minecraft/world/World", "getBlock", "(III)Lnet/minecraft/block/Block;"));
                                 toInject.add(new FieldInsnNode(Opcodes.PUTFIELD, "net/minecraft/entity/projectile/EntityArrow", "field_145790_g", "Lnet/minecraft/block/Block;"));
                             }
-
+                            //Get block at the arrow's coordinates and assign it to field_145790_g, overriding the incorrect assignment just before insertion.
                             m.instructions.insert(currentInstruction, toInject);
                             System.out.println("Injected new field assignment!");
                         }

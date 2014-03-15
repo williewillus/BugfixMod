@@ -1,4 +1,4 @@
-package williewillus.BugfixMod;
+package williewillus.BugfixMod.patchers;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
@@ -29,8 +29,7 @@ public class ChatOpacityFixPatcher {
         Iterator<MethodNode> methods = classNode.methods.iterator();
 
 
-
-        while(methods.hasNext()) {
+        while (methods.hasNext()) {
             MethodNode m = methods.next();
 
             if (m.name.equals(targetMethodName) && m.desc.equals(targetMethodDesc)) {
@@ -49,7 +48,7 @@ public class ChatOpacityFixPatcher {
                         AbstractInsnNode entryPoint = currentInstruction.getNext().getNext();
                         InsnList toInject = new InsnList();
                         toInject.add(new IntInsnNode(Opcodes.SIPUSH, 3042));
-                        toInject.add(new MethodInsnNode(Opcodes.INVOKESTATIC,"org/lwjgl/opengl/GL11","glEnable","(I)V"));
+                        toInject.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "org/lwjgl/opengl/GL11", "glEnable", "(I)V"));
                         m.instructions.insert(entryPoint, toInject);
                     }
                     index++;

@@ -8,4 +8,5 @@ public class BugFixModSettings {
     public boolean ArrowFixEnabled;
     public boolean SnowballFixEnabled;
     public boolean ChatOpacityFixEnabled;
+    public boolean ChickenLureFixEnabled;
 }

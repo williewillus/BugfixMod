@@ -12,7 +12,7 @@ import java.util.Iterator;
  */
 public class XPFixPatcher {
     public static byte[] patch(byte[] bytes, boolean isObf) {
-        String targetMethodName,targetMethodDesc;
+        String targetMethodName, targetMethodDesc;
 
         if (isObf) {
             targetMethodName = "a";
@@ -27,7 +27,7 @@ public class XPFixPatcher {
         classReader.accept(classNode, 0);
         Iterator<MethodNode> methods = classNode.methods.iterator();
 
-        while(methods.hasNext()) {
+        while (methods.hasNext()) {
             MethodNode m = methods.next();
 
 

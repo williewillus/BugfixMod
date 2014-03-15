@@ -2,9 +2,7 @@ package williewillus.BugfixMod;
 
 import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraftforge.common.config.Configuration;
-import williewillus.BugfixMod.patchers.ArrowFixPatcher;
-import williewillus.BugfixMod.patchers.SnowballFixPatcher;
-import williewillus.BugfixMod.patchers.XPFixPatcher;
+import williewillus.BugfixMod.patchers.*;
 
 import java.io.File;
 
@@ -20,7 +18,6 @@ public class BugfixModClassTransformer implements IClassTransformer {
     public File settingsFile;
     private boolean isObf;
 
-
     public BugfixModClassTransformer() {
         if (instance != null) {
             throw new RuntimeException("Only one transformer may exist!");
@@ -34,7 +31,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
     public void initialize(Boolean par1isObf) {
 
         if (hasInit) {
-            return;
+
         } else {
             isObf = par1isObf;
 
@@ -42,13 +39,15 @@ public class BugfixModClassTransformer implements IClassTransformer {
             config.load();
             settings = new BugFixModSettings();
 
-            settings.ArrowFixEnabled = config.get("COMMON","ArrowFixEnabled",true).getBoolean(true);
-            settings.SnowballFixEnabled = config.get("COMMON","SnowballFixEnabled",true).getBoolean(true);
+            settings.ArrowFixEnabled = config.get("COMMON", "ArrowFixEnabled", true).getBoolean(true);
+            settings.SnowballFixEnabled = config.get("COMMON", "SnowballFixEnabled", true).getBoolean(true);
+            settings.ChickenLureFixEnabled = config.get("COMMON", "ChickenLureFixEnabled", true).getBoolean(true);
 
-            settings.XPFixEnabled = config.get("CLIENT","XPFixEnabled",true).getBoolean(true);
-            settings.ChatOpacityFixEnabled = config.get("CLIENT","ChatOpacityFixEnabled",true).getBoolean(true);
+            settings.XPFixEnabled = config.get("CLIENT", "XPFixEnabled", true).getBoolean(true);
+            settings.ChatOpacityFixEnabled = config.get("CLIENT", "ChatOpacityFixEnabled", true).getBoolean(true);
 
             config.save();
+
 
             hasInit = true;
         }
@@ -70,7 +69,6 @@ public class BugfixModClassTransformer implements IClassTransformer {
                 return XPFixPatcher.patch(bytes, isObf);
             } else {
                 System.out.println("XPFix disabled, skipping patch.");
-
                 return bytes;
             }
         }
@@ -80,7 +78,6 @@ public class BugfixModClassTransformer implements IClassTransformer {
                 return SnowballFixPatcher.patch(bytes, isObf);
             } else {
                 System.out.println("SnowballFix disabled, skipping patch.");
-
                 return bytes;
             }
         }
@@ -90,7 +87,15 @@ public class BugfixModClassTransformer implements IClassTransformer {
                 return ChatOpacityFixPatcher.patch(bytes, isObf);
             } else {
                 System.out.println("ChatOpacityFix disabled, skipping patch");
+                return bytes;
+            }
+        }
 
+        if (par1.equals("net.minecraft.entity.passive.EntityChicken") || par1.equals("us")) {
+            if (settings.ChickenLureFixEnabled) {
+                return ChickenLureFixPatcher.patch(bytes, isObf);
+            } else {
+                System.out.println("ChickenLureFix disabled, skipping patch");
                 return bytes;
             }
         }
