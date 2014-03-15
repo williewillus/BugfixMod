@@ -9,4 +9,6 @@ public class BugFixModSettings {
     public boolean SnowballFixEnabled;
     public boolean ChatOpacityFixEnabled;
     public boolean ChickenLureFixEnabled;
+    public boolean LinkCommandEnabled;
+    public boolean VillageAnvilTweakEnabled;
 }

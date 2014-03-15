@@ -23,7 +23,7 @@ public class BugfixModFMLLoadingPlugin implements IFMLLoadingPlugin, IFMLCallHoo
     }
 
     public String getModContainerClass() {
-        return BugfixMod.class.getName();
+        return BugfixModDummyContainer.class.getName();
     }
 
 

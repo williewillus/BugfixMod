@@ -43,6 +43,9 @@ public class BugfixModClassTransformer implements IClassTransformer {
             settings.SnowballFixEnabled = config.get("COMMON", "SnowballFixEnabled", true).getBoolean(true);
             settings.ChickenLureFixEnabled = config.get("COMMON", "ChickenLureFixEnabled", true).getBoolean(true);
 
+            settings.LinkCommandEnabled = config.get("TWEAKS", "LinkCommandEnabled", false).getBoolean(false);
+            settings.VillageAnvilTweakEnabled = config.get("TWEAKS","VillageAnvilTweakEnabled",false).getBoolean(false);
+
             settings.XPFixEnabled = config.get("CLIENT", "XPFixEnabled", true).getBoolean(true);
             settings.ChatOpacityFixEnabled = config.get("CLIENT", "ChatOpacityFixEnabled", true).getBoolean(true);
 
@@ -100,6 +103,19 @@ public class BugfixModClassTransformer implements IClassTransformer {
             }
         }
 
+        if (par1.equals("net.minecraft.world.gen.structure.StructureVillagePieces$House2") || par1.equals("auk")) {
+            if (settings.VillageAnvilTweakEnabled) {
+                return VillageAnvilTweakPatcher.patch(bytes, isObf);
+            } else {
+                System.out.println("VillageAnvilTweak disabled, skipping patch");
+            }
+        }
+
         return bytes;
     }
+
+    public BugFixModSettings getSettings() {
+        return settings;
+    }
+
 }

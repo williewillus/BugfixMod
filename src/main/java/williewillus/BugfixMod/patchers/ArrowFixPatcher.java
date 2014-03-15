@@ -31,7 +31,7 @@ public class ArrowFixPatcher {
             MethodNode m = methods.next();
 
             if (m.name.equals(targetMethodName) && m.desc.equals(targetMethodDesc)) {
-                System.out.println("Found target method: " + targetMethodName);
+                System.out.println("[ArrowFix] Found target method: " + targetMethodName);
 
                 AbstractInsnNode currentInstruction;
                 Iterator<AbstractInsnNode> instructionSet = m.instructions.iterator();
@@ -44,7 +44,7 @@ public class ArrowFixPatcher {
                     currentInstruction = instructionSet.next();
                     if (currentInstruction instanceof FieldInsnNode) {
                         if (((FieldInsnNode) currentInstruction).name.equals(targetFieldName) && currentInstruction.getOpcode() == Opcodes.PUTFIELD) {
-                            System.out.println("Found entry point!");
+                            System.out.println("[ArrowFix] Found entry point!");
                             InsnList toInject = new InsnList();
 
                             if (isObf) {
@@ -74,7 +74,7 @@ public class ArrowFixPatcher {
                             }
                             //Get block at the arrow's coordinates and assign it to field_145790_g, overriding the incorrect assignment just before insertion.
                             m.instructions.insert(currentInstruction, toInject);
-                            System.out.println("Injected new field assignment!");
+                            System.out.println("[ArrowFix] Injected new field assignment!");
                         }
                     }
                     index++;
@@ -85,7 +85,7 @@ public class ArrowFixPatcher {
         }
         ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
         classNode.accept(writer);
-        System.out.println("ArrowFix Applied Transform!");
+        System.out.println("[ArrowFix] Applied Transform!");
         return writer.toByteArray();
     }
 }

@@ -33,7 +33,7 @@ public class ChatOpacityFixPatcher {
             MethodNode m = methods.next();
 
             if (m.name.equals(targetMethodName) && m.desc.equals(targetMethodDesc)) {
-                System.out.println("Found target method: " + targetMethodName);
+                System.out.println("[ChatOpacityFix] Found target method: " + targetMethodName);
 
                 AbstractInsnNode currentInstruction;
                 Iterator<AbstractInsnNode> instructionSet = m.instructions.iterator();
@@ -44,7 +44,7 @@ public class ChatOpacityFixPatcher {
                 while (instructionSet.hasNext()) {
                     currentInstruction = instructionSet.next();
                     if (currentInstruction.getOpcode() == Opcodes.INVOKESTATIC && currentInstruction.getPrevious().getOpcode() == Opcodes.ISHL && currentInstruction.getPrevious().getPrevious().getOpcode() == Opcodes.BIPUSH) {
-                        System.out.println("Entry point found:" + (index + 2));
+                        System.out.println("[ChatOpacityFix] Entry point found:" + (index + 2));
                         AbstractInsnNode entryPoint = currentInstruction.getNext().getNext();
                         InsnList toInject = new InsnList();
                         toInject.add(new IntInsnNode(Opcodes.SIPUSH, 3042));
@@ -59,7 +59,7 @@ public class ChatOpacityFixPatcher {
         }
         ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
         classNode.accept(writer);
-        System.out.println("ChatOpacityFix Applied Transform!");
+        System.out.println("[ChatOpacityFix] Applied Transform!");
         return writer.toByteArray();
     }
 

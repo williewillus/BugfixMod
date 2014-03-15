@@ -31,7 +31,7 @@ public class ChickenLureFixPatcher {
             MethodNode m = methods.next();
 
             if (m.name.equals(targetMethodName) && m.desc.equals(targetMethodDesc)) {
-                System.out.println("Found target method: " + targetMethodName);
+                System.out.println("[ChickenLureFix] Found target method: " + targetMethodName);
 
                 AbstractInsnNode currentInstruction;
                 Iterator<AbstractInsnNode> instructionSet = m.instructions.iterator();
@@ -49,7 +49,7 @@ public class ChickenLureFixPatcher {
                         if (currentMIN.getOpcode() == Opcodes.INVOKESPECIAL && currentMIN.getNext().getOpcode() == Opcodes.INVOKEVIRTUAL) {
 
                             if (currentMIN.owner.equals(innerTargetOwner)) {
-                                System.out.println("Found entry point");
+                                System.out.println("[ChickenLureFix] Found entry point");
                                 InsnList toInject = new InsnList();
 
                                 if (isObf) {
@@ -120,7 +120,7 @@ public class ChickenLureFixPatcher {
         }
         ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
         classNode.accept(writer);
-        System.out.println("ChickenLureFix Applied Transform!");
+        System.out.println("[ChickenLureFix] Applied Transform!");
         return writer.toByteArray();
 
     }
