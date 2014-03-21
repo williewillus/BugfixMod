@@ -11,4 +11,5 @@ public class BugFixModSettings {
     public boolean ChickenLureFixEnabled;
     public boolean LinkCommandEnabled;
     public boolean VillageAnvilTweakEnabled;
+    public boolean ToolDesyncFixEnabled;
 }

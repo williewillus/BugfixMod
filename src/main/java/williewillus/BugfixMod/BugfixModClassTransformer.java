@@ -43,11 +43,13 @@ public class BugfixModClassTransformer implements IClassTransformer {
             settings.SnowballFixEnabled = config.get("COMMON", "SnowballFixEnabled", true).getBoolean(true);
             settings.ChickenLureFixEnabled = config.get("COMMON", "ChickenLureFixEnabled", true).getBoolean(true);
 
+
             settings.LinkCommandEnabled = config.get("TWEAKS", "LinkCommandEnabled", false).getBoolean(false);
             settings.VillageAnvilTweakEnabled = config.get("TWEAKS","VillageAnvilTweakEnabled",false).getBoolean(false);
 
             settings.XPFixEnabled = config.get("CLIENT", "XPFixEnabled", true).getBoolean(true);
             settings.ChatOpacityFixEnabled = config.get("CLIENT", "ChatOpacityFixEnabled", true).getBoolean(true);
+            settings.ToolDesyncFixEnabled = config.get("CLIENT", "ToolDesyncFixEnabled", false).getBoolean(false);
 
             config.save();
 
@@ -108,6 +110,14 @@ public class BugfixModClassTransformer implements IClassTransformer {
                 return VillageAnvilTweakPatcher.patch(bytes, isObf);
             } else {
                 System.out.println("VillageAnvilTweak disabled, skipping patch");
+            }
+        }
+
+        if (par1.equals("net.minecraft.item.ItemTool") || par1.equals("aas")) {
+            if (settings.ToolDesyncFixEnabled) {
+                return ToolDesyncFixPatcher.patch(bytes, isObf);
+            } else {
+                System.out.println("ToolDesyncFix disabled, skipping patch");
             }
         }
 
