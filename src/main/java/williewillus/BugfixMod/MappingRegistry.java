@@ -97,13 +97,17 @@ public class MappingRegistry {
         // par2 - should the deobfuscated name be delimited by slashes (true) or periods (false)
         if (!isObf) {
             if (par2) {
-                return par1.replaceAll(".", "/");
+                return par1.replaceAll("\\.", "/");
             } else {
                 return par1.replaceAll("/", ".");
             }
         } else {
             return classMap.get(par1);
         }
+    }
+
+    public static String getClassNameFor(String par1) {
+        return getClassNameFor(par1, true);
     }
 
     public static String getFieldNameFor(String par1) {

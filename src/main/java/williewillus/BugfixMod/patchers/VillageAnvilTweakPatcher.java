@@ -7,6 +7,7 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.MethodNode;
+import williewillus.BugfixMod.MappingRegistry;
 
 import java.util.Iterator;
 
@@ -15,17 +16,12 @@ import java.util.Iterator;
  */
 public class VillageAnvilTweakPatcher {
     public static byte[] patch(byte[] bytes, boolean isObf) {
-        String targetMethodName,targetMethodDesc,innerTargetFieldName;
-
-        if (isObf) {
-            targetMethodName = "a";
-            targetMethodDesc = "(Lafn;Ljava/util/Random;Larh;)Z";
-            innerTargetFieldName = "T";
-        } else {
-            targetMethodName = "addComponentParts";
-            targetMethodDesc = "(Lnet/minecraft/world/World;Ljava/util/Random;Lnet/minecraft/world/gen/structure/StructureBoundingBox;)Z";
-            innerTargetFieldName = "double_stone_slab";
-        }
+        String targetMethodName = MappingRegistry.getMethodNameFor("net.minecraft.world.gen.structure.StructureVillagePieces$House2.addComponentParts");
+        String targetMethodDesc =
+                "(L" + MappingRegistry.getClassNameFor("net/minecraft/world/World") + ";"
+                + "Ljava/util/Random;"
+                + "L" + MappingRegistry.getClassNameFor("net/minecraft/world/gen/structure/StructureBoundingBox") + ";)Z";
+        String innerTargetFieldName = MappingRegistry.getFieldNameFor("Blocks.double_stone_slab");
 
         ClassNode classNode = new ClassNode();
         ClassReader reader = new ClassReader(bytes);
@@ -44,13 +40,12 @@ public class VillageAnvilTweakPatcher {
                         FieldInsnNode f = (FieldInsnNode) currentInstruction;
                         if (f.name.equals(innerTargetFieldName)) {
                             System.out.println("[VillageAnvilTweak] Found entry point: " + f.owner + " " + f.name + " " + f.desc);
-                            if (isObf) {
-                                m.instructions.insert(currentInstruction, new FieldInsnNode(Opcodes.GETSTATIC, "ahz", "bQ", "Lahu;"));
-                                System.out.println("[VillageAnvilTweak] Replaced double stone slab with anvil.");
-                            } else {
-                                m.instructions.insert(currentInstruction, new FieldInsnNode(Opcodes.GETSTATIC, "net/minecraft/init/Blocks", "anvil", "Lnet/minecraft/block/Block;"));
-                                System.out.println("[VillageAnvilTweak] Replaced double stone slab with anvil.");
-                            }
+                            m.instructions.insert(currentInstruction, new FieldInsnNode(Opcodes.GETSTATIC,
+                                    MappingRegistry.getClassNameFor("net/minecraft/init/Blocks"),
+                                    MappingRegistry.getFieldNameFor("Blocks.anvil"),
+                                    "L" + MappingRegistry.getClassNameFor("net/minecraft/block/Block") + ";"
+                            ));
+                            System.out.println("[VillageAnvilTweak] Replaced double stone slab with anvil.");
                             m.instructions.remove(currentInstruction);
                         }
                     }

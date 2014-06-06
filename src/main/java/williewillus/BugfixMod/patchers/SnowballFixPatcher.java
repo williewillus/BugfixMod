@@ -6,6 +6,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodNode;
+import williewillus.BugfixMod.MappingRegistry;
 
 /**
  * Created by Vincent on 3/11/14.
@@ -13,14 +14,8 @@ import org.objectweb.asm.tree.MethodNode;
 public class SnowballFixPatcher {
 
     public static byte[] patch(byte[] bytes, boolean isObf) {
-        String targetMethodName, targetMethodDesc;
-        if (isObf) {
-            targetMethodName = "a";
-            targetMethodDesc = "(Lqb;F)Z";
-        } else {
-            targetMethodName = "attackEntityFrom";
-            targetMethodDesc = "(Lnet/minecraft/util/DamageSource;F)Z";
-        }
+        String targetMethodName = MappingRegistry.getMethodNameFor("EntityPlayer.attackEntityFrom");
+        String targetMethodDesc = "(L" + MappingRegistry.getClassNameFor("net/minecraft/util/DamageSource") + ";F)Z";
 
         ClassNode classNode = new ClassNode();
         ClassReader classReader = new ClassReader(bytes);

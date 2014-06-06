@@ -4,6 +4,7 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
+import williewillus.BugfixMod.MappingRegistry;
 
 import java.util.Iterator;
 
@@ -12,14 +13,8 @@ import java.util.Iterator;
  */
 public class HeartFlashFixPatcher {
     public static byte[] patch(byte[] bytes, boolean isObf) {
-        String targetMethodName, targetMethodDesc;
-        if (isObf) {
-            targetMethodName = "a";
-            targetMethodDesc = "(Lqb;F)Z";
-        } else {
-            targetMethodName = "attackEntityFrom";
-            targetMethodDesc = "(Lnet/minecraft/util/DamageSource;F)Z";
-        }
+        String targetMethodName = MappingRegistry.getMethodNameFor("EntityClientPlayerMP.attackEntityFrom");
+        String targetMethodDesc = "(L" + MappingRegistry.getClassNameFor("net/minecraft/util/DamageSource") + ";F)Z";
 
         ClassNode classNode = new ClassNode();
         ClassReader classReader = new ClassReader(bytes);
@@ -39,19 +34,16 @@ public class HeartFlashFixPatcher {
                         InsnList toInject = new InsnList();
                         toInject.add(new VarInsnNode(Opcodes.ALOAD, 0));
                         toInject.add(new VarInsnNode(Opcodes.ALOAD, 0));
-                        if (isObf) {
-                            toInject.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "bje", "aS", "()F"));
-                        } else {
-                            toInject.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "net/minecraft/client/entity/EntityClientPlayerMP", "getHealth", "()F"));
-                        }
+                        toInject.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,
+                                MappingRegistry.getClassNameFor("net/minecraft/client/entity/EntityClientPlayerMP"),
+                                MappingRegistry.getMethodNameFor("EntityClientPlayerMP.getHealth"),
+                                "()F"));
                         toInject.add(new VarInsnNode(Opcodes.FLOAD, 2));
                         toInject.add(new InsnNode(Opcodes.FADD));
-                        if (isObf) {
-                            toInject.add(new FieldInsnNode(Opcodes.PUTFIELD, "bje", "ax", "F"));
-                        } else {
-                            toInject.add(new FieldInsnNode(Opcodes.PUTFIELD, "net/minecraft/client/entity/EntityClientPlayerMP", "prevHealth", "F"));
-                        }
-
+                        toInject.add(new FieldInsnNode(Opcodes.PUTFIELD,
+                                MappingRegistry.getClassNameFor("net/minecraft/client/entity/EntityClientPlayerMP"),
+                                MappingRegistry.getFieldNameFor("EntityClientPlayerMP.prevHealth"),
+                                "F"));
                         m.instructions.insertBefore(currentInstruction, toInject);
                     }
                 }

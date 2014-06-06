@@ -4,6 +4,7 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
+import williewillus.BugfixMod.MappingRegistry;
 
 import java.util.Iterator;
 
@@ -12,15 +13,8 @@ import java.util.Iterator;
  */
 public class XPFixPatcher {
     public static byte[] patch(byte[] bytes, boolean isObf) {
-        String targetMethodName, targetMethodDesc;
-
-        if (isObf) {
-            targetMethodName = "a";
-            targetMethodDesc = "(Lfo;)V";
-        } else {
-            targetMethodName = "handleSpawnExperienceOrb";
-            targetMethodDesc = "(Lnet/minecraft/network/play/server/S11PacketSpawnExperienceOrb;)V";
-        }
+        String targetMethodName = MappingRegistry.getMethodNameFor("NetHandlerPlayClient.handleSpawnExperienceOrb");
+        String targetMethodDesc = "(L" + MappingRegistry.getClassNameFor("net/minecraft/network/play/server/S11PacketSpawnExperienceOrb") + ";)V";
 
         ClassNode classNode = new ClassNode();
         ClassReader classReader = new ClassReader(bytes);
