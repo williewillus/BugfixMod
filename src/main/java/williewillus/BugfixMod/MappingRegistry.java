@@ -79,7 +79,7 @@ public class MappingRegistry {
 
                 classMap.put("net/minecraft/init/Blocks", "ahz");
                 fieldMap.put("Blocks.anvil", "bQ");
-                fieldMap.put("Blocks.double_stone_slab", "I");
+                fieldMap.put("Blocks.double_stone_slab", "T");
 
                 // XPFix
                 classMap.put("net/minecraft/client/network/NetHandlerPlayClient", "biv");
