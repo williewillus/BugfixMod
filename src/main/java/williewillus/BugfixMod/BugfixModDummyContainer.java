@@ -1,9 +1,9 @@
 package williewillus.BugfixMod;
 
 import com.google.common.eventbus.EventBus;
-import cpw.mods.fml.common.*;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.common.ForgeModContainer;
+import cpw.mods.fml.common.DummyModContainer;
+import cpw.mods.fml.common.LoadController;
+import cpw.mods.fml.common.ModMetadata;
 
 import java.util.Arrays;
 
@@ -20,7 +20,7 @@ public class BugfixModDummyContainer extends DummyModContainer {
         myMeta.authorList = Arrays.asList("williewillus");
         myMeta.description = "Combination of all my other bugfix mods.";
         myMeta.modId = "BugfixMod";
-        myMeta.version = "0.2.2";
+        myMeta.version = "@VERSION@";
         myMeta.name = "BugfixMod";
         myMeta.url = "https://github.com/williewillus/BugfixMod";
     }

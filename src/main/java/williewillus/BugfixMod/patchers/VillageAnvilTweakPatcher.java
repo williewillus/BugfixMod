@@ -30,10 +30,8 @@ public class VillageAnvilTweakPatcher {
         ClassNode classNode = new ClassNode();
         ClassReader reader = new ClassReader(bytes);
         reader.accept(classNode,0);
-        Iterator<MethodNode> methods = classNode.methods.iterator();
 
-        while (methods.hasNext()) {
-            MethodNode m = methods.next();
+        for (MethodNode m : classNode.methods) {
             if (m.name.equals(targetMethodName) && m.desc.equals(targetMethodDesc)) {
                 System.out.println("[VillageAnvilTweak] Found target method: " + m.name);
 

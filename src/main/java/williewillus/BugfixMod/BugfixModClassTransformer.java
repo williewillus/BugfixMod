@@ -30,9 +30,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
 
     public void initialize(Boolean par1isObf) {
 
-        if (hasInit) {
-
-        } else {
+        if (!hasInit) {
             isObf = par1isObf;
 
             Configuration config = new Configuration(settingsFile);
@@ -50,6 +48,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
             settings.XPFixEnabled = config.get("CLIENT", "XPFixEnabled", true).getBoolean(true);
             settings.ChatOpacityFixEnabled = config.get("CLIENT", "ChatOpacityFixEnabled", true).getBoolean(true);
             settings.ToolDesyncFixEnabled = config.get("CLIENT", "ToolDesyncFixEnabled", false).getBoolean(false);
+            settings.HeartFlashFixEnabled = config.get("CLIENT", "HeartFlashFixEnabled", true).getBoolean(true);
 
             config.save();
 
@@ -118,6 +117,14 @@ public class BugfixModClassTransformer implements IClassTransformer {
                 return ToolDesyncFixPatcher.patch(bytes, isObf);
             } else {
                 System.out.println("ToolDesyncFix disabled, skipping patch");
+            }
+        }
+
+        if (par1.equals("net.minecraft.client.entity.EntityClientPlayerMP") || par1.equals("bje")) {
+            if (settings.HeartFlashFixEnabled) {
+                return HeartFlashFixPatcher.patch(bytes, isObf);
+            } else {
+                System.out.println("HeartFlashFix disabled, skipping patch");
             }
         }
 

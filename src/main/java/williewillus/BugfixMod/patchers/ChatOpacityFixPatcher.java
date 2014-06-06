@@ -26,12 +26,9 @@ public class ChatOpacityFixPatcher {
         ClassNode classNode = new ClassNode();
         ClassReader classReader = new ClassReader(bytes);
         classReader.accept(classNode, 0);
-        Iterator<MethodNode> methods = classNode.methods.iterator();
 
 
-        while (methods.hasNext()) {
-            MethodNode m = methods.next();
-
+        for (MethodNode m : classNode.methods) {
             if (m.name.equals(targetMethodName) && m.desc.equals(targetMethodDesc)) {
                 System.out.println("[ChatOpacityFix] Found target method: " + targetMethodName);
 
@@ -48,7 +45,7 @@ public class ChatOpacityFixPatcher {
                         AbstractInsnNode entryPoint = currentInstruction.getNext().getNext();
                         InsnList toInject = new InsnList();
                         toInject.add(new IntInsnNode(Opcodes.SIPUSH, 3042));
-                        toInject.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "org/lwjgl/opengl/GL11", "glEnable", "(I)V"));
+                        toInject.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "org/lwjgl/opengl/GL11", "glEnable", "(I)V")); // Simply insert a glEnable call that was present in 1.6.4 but absent in 1.7.x
                         m.instructions.insert(entryPoint, toInject);
                     }
                     index++;

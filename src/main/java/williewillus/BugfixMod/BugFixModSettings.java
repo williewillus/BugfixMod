@@ -12,4 +12,5 @@ public class BugFixModSettings {
     public boolean LinkCommandEnabled;
     public boolean VillageAnvilTweakEnabled;
     public boolean ToolDesyncFixEnabled;
+    public boolean HeartFlashFixEnabled;
 }

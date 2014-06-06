@@ -24,12 +24,9 @@ public class ChickenLureFixPatcher {
         ClassNode classNode = new ClassNode();
         ClassReader classReader = new ClassReader(bytes);
         classReader.accept(classNode, 0);
-        Iterator<MethodNode> methods = classNode.methods.iterator();
 
 
-        while (methods.hasNext()) {
-            MethodNode m = methods.next();
-
+        for (MethodNode m : classNode.methods) {
             if (m.name.equals(targetMethodName) && m.desc.equals(targetMethodDesc)) {
                 System.out.println("[ChickenLureFix] Found target method: " + targetMethodName);
 

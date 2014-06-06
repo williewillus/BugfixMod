@@ -25,12 +25,8 @@ public class XPFixPatcher {
         ClassNode classNode = new ClassNode();
         ClassReader classReader = new ClassReader(bytes);
         classReader.accept(classNode, 0);
-        Iterator<MethodNode> methods = classNode.methods.iterator();
 
-        while (methods.hasNext()) {
-            MethodNode m = methods.next();
-
-
+        for (MethodNode m : classNode.methods) {
             if (m.name.equals(targetMethodName) && m.desc.equals(targetMethodDesc)) {
                 System.out.println("[XPFix] Found target method");
 
@@ -43,7 +39,7 @@ public class XPFixPatcher {
                         if (currentInstruction.getPrevious().getOpcode() == Opcodes.DUP) {
                             System.out.println("[XPFix] Found initial dup instruction");
                             InsnList toInject = new InsnList();
-                            toInject.add(new LdcInsnNode(new Float(32.0f))); //load a new float constant 32.0f and store it to use below
+                            toInject.add(new LdcInsnNode(32.0F)); //load a new float constant 32.0f and store it to use below
                             toInject.add(new InsnNode(Opcodes.F2D));
                             toInject.add(new VarInsnNode(Opcodes.DSTORE, 3));
                             m.instructions.insert(currentInstruction, toInject);

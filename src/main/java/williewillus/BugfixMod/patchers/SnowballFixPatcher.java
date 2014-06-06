@@ -3,12 +3,9 @@ package williewillus.BugfixMod.patchers;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodNode;
-
-import java.util.Iterator;
 
 /**
  * Created by Vincent on 3/11/14.
@@ -28,12 +25,9 @@ public class SnowballFixPatcher {
         ClassNode classNode = new ClassNode();
         ClassReader classReader = new ClassReader(bytes);
         classReader.accept(classNode, 0);
-        Iterator<MethodNode> methods = classNode.methods.iterator();
 
 
-        while (methods.hasNext()) {
-            MethodNode m = methods.next();
-
+        for (MethodNode m : classNode.methods) {
             if (m.name.equals(targetMethodName) && m.desc.equals(targetMethodDesc)) {
                 System.out.println("[SnowballFix] Found target method: " + targetMethodName);
 
@@ -46,7 +40,7 @@ public class SnowballFixPatcher {
                             instructionSet.remove(instructionSet.get(i).getNext().getNext().getNext().getNext());
                             instructionSet.remove(instructionSet.get(i).getNext().getNext().getNext());
                             //Remove instruction to return without action when damagesource health is 0. In other words, being dealt 0 damage shows everything associated with damage.
-                            //Including gui tilt, heart flash, sound, and, most importantly, knockback.
+                            //Including gui tilt, heart flash, sound, and, most importantly, knockback. This was behavior in older versions but was somehow removed in more recent years.
                         }
                     }
                 }
