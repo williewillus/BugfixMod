@@ -14,23 +14,21 @@ public class BugfixModFMLLoadingPlugin implements IFMLLoadingPlugin, IFMLCallHoo
         return new String[]{BugfixModClassTransformer.class.getName()};
     }
 
-    public String getSetupClass() {
-        return BugfixModFMLLoadingPlugin.class.getName();
-    }
-
-    public String getAccessTransformerClass() {
-        return null;
-    }
-
     public String getModContainerClass() {
         return BugfixModDummyContainer.class.getName();
     }
 
+    public String getSetupClass() {
+        return BugfixModFMLLoadingPlugin.class.getName();
+    }
 
     public void injectData(Map<String, Object> data) {
         BugfixModClassTransformer.instance.settingsFile = new File(((File) data.get("mcLocation")).getPath() + "/config/BugfixMod.cfg");
         BugfixModClassTransformer.instance.initialize((Boolean) data.get("runtimeDeobfuscationEnabled"));
+    }
 
+    public String getAccessTransformerClass() {
+        return null;
     }
 
     public Void call() {

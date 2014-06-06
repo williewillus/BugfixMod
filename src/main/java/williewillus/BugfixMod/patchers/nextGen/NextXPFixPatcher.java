@@ -26,7 +26,6 @@ public class NextXPFixPatcher extends AbstractPatcher {
                 toInject.add(new VarInsnNode(Opcodes.DSTORE, 3));
                 printMessage("Injected constant into instruction set");
                 return toInject;
-
             }
         }
 

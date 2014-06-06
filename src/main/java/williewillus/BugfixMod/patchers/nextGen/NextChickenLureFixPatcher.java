@@ -64,7 +64,6 @@ public class NextChickenLureFixPatcher extends AbstractPatcher {
                     toInject.add(new InsnNode(Opcodes.ICONST_0));
                     toInject.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, aiTemptName, "<init>", "(L" + creatureName + ";DL" + itemName + ";Z)V"));
                     toInject.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, aiTaskName, aiTaskAdd, "(IL" + aiBaseName + ";)V"));
-
                 }
             }
         }

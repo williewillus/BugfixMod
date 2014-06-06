@@ -20,7 +20,7 @@ public class MappingRegistry {
                 // ArrowFix
                 classMap.put("net/minecraft/entity/projectile/EntityArrow", "xo");
                 fieldMap.put("EntityArrow.worldObj", "p");
-                fieldMap.put("EntityArrow.field_145791_d","d");
+                fieldMap.put("EntityArrow.field_145791_d", "d");
                 fieldMap.put("EntityArrow.field_145792_e", "e");
                 fieldMap.put("EntityArrow.field_145789_f", "f");
                 fieldMap.put("EntityArrow.field_145790_g", "g");
@@ -122,7 +122,7 @@ public class MappingRegistry {
     public static String getMethodNameFor(String par1) {
         // par1 will be in the format className.methodName
         if (!isObf) {
-            return par1.substring(par1.lastIndexOf(".") + 1); // return second half, the fieldname
+            return par1.substring(par1.lastIndexOf(".") + 1); // return second half, the methodname
         } else {
             return methodMap.get(par1);
         }

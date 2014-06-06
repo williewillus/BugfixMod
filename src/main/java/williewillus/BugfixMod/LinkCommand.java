@@ -40,14 +40,14 @@ public class LinkCommand implements ICommand {
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
         if (args.length > 1 || args.length == 0) {
-            throw new WrongUsageException("/link <destination>",new Object[0]);
+            throw new WrongUsageException("/link <destination>", new Object[0]);
         } else {
             MinecraftServer.getServer().getCommandManager().executeCommand(sender, "tellraw @a {\"text\":\"\",\"extra\":[{\"text\":\"" + "Clickable: " + args[0] + "\",\"color\":\"white\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + args[0] + "\"},\"underlined\":\"true\"}]}");
         }
     }
 
     @Override
-    public boolean canCommandSenderUseCommand (ICommandSender sender) {
+    public boolean canCommandSenderUseCommand(ICommandSender sender) {
         return true;
     }
 

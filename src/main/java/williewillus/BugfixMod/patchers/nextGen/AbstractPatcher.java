@@ -13,11 +13,11 @@ import java.util.Iterator;
  * Created by Vincent on 6/6/2014.
  */
 public abstract class AbstractPatcher {
+    public String name;
     protected String targetClassName;
     protected String targetMethodName;
     protected String targetMethodDesc;
     protected String targetFieldName;
-    public String name;
 
     public AbstractPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
         this.name = name;
@@ -41,7 +41,7 @@ public abstract class AbstractPatcher {
                     while (instructionSet.hasNext()) {
                         currentInstruction = instructionSet.next();
                         if (this instanceof AbstractRemovalPatcher) {
-                            ((AbstractRemovalPatcher)this).removeInsns(currentInstruction, instructionSet, m.instructions);
+                            ((AbstractRemovalPatcher) this).removeInsns(currentInstruction, instructionSet, m.instructions);
                         } else {
                             InsnList toInject = buildNewInsns(currentInstruction, instructionSet);
                             if (toInject.size() > 0) {

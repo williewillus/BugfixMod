@@ -14,10 +14,10 @@ import java.util.Map;
  */
 public class BugfixModClassTransformer implements IClassTransformer {
 
-    private boolean hasInit = false;
     public static BugfixModClassTransformer instance;
-    private BugFixModSettings settings;
     public File settingsFile;
+    private boolean hasInit = false;
+    private BugFixModSettings settings;
     private boolean isObf;
     private HashMap<String, AbstractPatcher> patchers;
 
@@ -26,9 +26,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
             throw new RuntimeException("Only one transformer may exist!");
         } else {
             instance = this;
-
         }
-
     }
 
     public void initialize(Boolean par1isObf) {
@@ -43,9 +41,8 @@ public class BugfixModClassTransformer implements IClassTransformer {
             settings.SnowballFixEnabled = config.get("COMMON", "SnowballFixEnabled", true).getBoolean(true);
             settings.ChickenLureFixEnabled = config.get("COMMON", "ChickenLureFixEnabled", true).getBoolean(true);
 
-
             settings.LinkCommandEnabled = config.get("TWEAKS", "LinkCommandEnabled", false).getBoolean(false);
-            settings.VillageAnvilTweakEnabled = config.get("TWEAKS","VillageAnvilTweakEnabled",false).getBoolean(false);
+            settings.VillageAnvilTweakEnabled = config.get("TWEAKS", "VillageAnvilTweakEnabled", false).getBoolean(false);
 
             settings.XPFixEnabled = config.get("CLIENT", "XPFixEnabled", true).getBoolean(true);
             settings.ChatOpacityFixEnabled = config.get("CLIENT", "ChatOpacityFixEnabled", true).getBoolean(true);
@@ -53,7 +50,6 @@ public class BugfixModClassTransformer implements IClassTransformer {
             settings.HeartFlashFixEnabled = config.get("CLIENT", "HeartFlashFixEnabled", true).getBoolean(true);
 
             config.save();
-
             MappingRegistry.init(par1isObf);
             setupPatchers();
             hasInit = true;
@@ -62,30 +58,6 @@ public class BugfixModClassTransformer implements IClassTransformer {
 
     public byte[] transform(String par1, String par2, byte[] bytes) {
         if (hasInit) {
-            /*if (settings.ChatOpacityFixEnabled) {
-                bytes = patchers.get(1).patch(bytes);
-            }
-            if (settings.ArrowFixEnabled) {
-                bytes = patchers.get(0).patch(bytes);
-            }
-            if (settings.ChickenLureFixEnabled) {
-                bytes = patchers.get(2).patch(bytes);
-            }
-            if (settings.HeartFlashFixEnabled) {
-                bytes = patchers.get(3).patch(bytes);
-            }
-            if (settings.SnowballFixEnabled) {
-                bytes = patchers.get(4).patch(bytes);
-            }
-            if (settings.ToolDesyncFixEnabled) {
-                bytes = patchers.get(5).patch(bytes);
-            }
-            if (settings.VillageAnvilTweakEnabled) {
-                bytes = patchers.get(6).patch(bytes);
-            }
-            if (settings.XPFixEnabled) {
-                bytes = patchers.get(7).patch(bytes);
-            }*/
             for (Map.Entry<String, AbstractPatcher> patcherEntry : patchers.entrySet()) {
                 bytes = patcherEntry.getValue().patch(bytes);
             }
@@ -190,6 +162,4 @@ public class BugfixModClassTransformer implements IClassTransformer {
             }
         }
     }
-
-
 }
