@@ -5,7 +5,8 @@ import net.minecraftforge.common.config.Configuration;
 import williewillus.BugfixMod.patchers.nextGen.*;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -18,7 +19,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
     private BugFixModSettings settings;
     public File settingsFile;
     private boolean isObf;
-    private ArrayList<AbstractPatcher> patchers;
+    private HashMap<String, AbstractPatcher> patchers;
 
     public BugfixModClassTransformer() {
         if (instance != null) {
@@ -33,8 +34,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
     public void initialize(Boolean par1isObf) {
         if (!hasInit) {
             isObf = par1isObf;
-            MappingRegistry.init(par1isObf);
-            setupPatchers();
+
             Configuration config = new Configuration(settingsFile);
             config.load();
             settings = new BugFixModSettings();
@@ -54,18 +54,19 @@ public class BugfixModClassTransformer implements IClassTransformer {
 
             config.save();
 
-
+            MappingRegistry.init(par1isObf);
+            setupPatchers();
             hasInit = true;
         }
     }
 
     public byte[] transform(String par1, String par2, byte[] bytes) {
         if (hasInit) {
+            /*if (settings.ChatOpacityFixEnabled) {
+                bytes = patchers.get(1).patch(bytes);
+            }
             if (settings.ArrowFixEnabled) {
                 bytes = patchers.get(0).patch(bytes);
-            }
-            if (settings.ChatOpacityFixEnabled) {
-                bytes = patchers.get(1).patch(bytes);
             }
             if (settings.ChickenLureFixEnabled) {
                 bytes = patchers.get(2).patch(bytes);
@@ -84,6 +85,9 @@ public class BugfixModClassTransformer implements IClassTransformer {
             }
             if (settings.XPFixEnabled) {
                 bytes = patchers.get(7).patch(bytes);
+            }*/
+            for (Map.Entry<String, AbstractPatcher> patcherEntry : patchers.entrySet()) {
+                bytes = patcherEntry.getValue().patch(bytes);
             }
         }
         return bytes;
@@ -94,80 +98,96 @@ public class BugfixModClassTransformer implements IClassTransformer {
         if (patchers != null) {
             System.out.println("Patcher already initialized!!");
         } else {
-            patchers = new ArrayList<AbstractPatcher>(15);
+            patchers = new HashMap<String, AbstractPatcher>();
 
-            patchers.add(new NextArrowFixPatcher(
-                    "ArrowFix",
-                    MappingRegistry.getClassNameFor("net/minecraft/entity/projectile/EntityArrow"),
-                    MappingRegistry.getMethodNameFor("EntityArrow.onUpdate"),
-                    "()V",
-                    MappingRegistry.getFieldNameFor("EntityArrow.field_145790_g")
-            ));
+            if (settings.ArrowFixEnabled) {
+                patchers.put("ArrowFix", new NextArrowFixPatcher(
+                        "ArrowFix",
+                        MappingRegistry.getClassNameFor("net/minecraft/entity/projectile/EntityArrow"),
+                        MappingRegistry.getMethodNameFor("EntityArrow.onUpdate"),
+                        "()V",
+                        MappingRegistry.getFieldNameFor("EntityArrow.field_145790_g")
+                ));
+            }
 
-            patchers.add(new NextChatOpacityFixPatcher(
-                    "ChatOpacityFix",
-                    MappingRegistry.getClassNameFor("net/minecraft/client/gui/GuiNewChat"),
-                    MappingRegistry.getMethodNameFor("GuiNewChat.drawChat"),
-                    "(I)V",
-                    ""
-            ));
+            if (settings.ChatOpacityFixEnabled) {
+                patchers.put("ChatOpacityFix", new NextChatOpacityFixPatcher(
+                        "ChatOpacityFix",
+                        MappingRegistry.getClassNameFor("net/minecraft/client/gui/GuiNewChat"),
+                        MappingRegistry.getMethodNameFor("GuiNewChat.drawChat"),
+                        "(I)V",
+                        ""
+                ));
+            }
 
-            patchers.add(new NextChickenLureFixPatcher(
-                    "ChickenLureFix",
-                    MappingRegistry.getClassNameFor("net/minecraft/entity/passive/EntityChicken"),
-                    "<init>",
-                    "(L" + MappingRegistry.getClassNameFor("net/minecraft/world/World") + ";)V",
-                    ""
-            ));
+            if (settings.ChickenLureFixEnabled) {
+                patchers.put("ChickenLureFix", new NextChickenLureFixPatcher(
+                        "ChickenLureFix",
+                        MappingRegistry.getClassNameFor("net/minecraft/entity/passive/EntityChicken"),
+                        "<init>",
+                        "(L" + MappingRegistry.getClassNameFor("net/minecraft/world/World") + ";)V",
+                        ""
+                ));
+            }
 
-            patchers.add(new NextHeartFlashFixPatcher(
-                    "HeartFlashFix",
-                    MappingRegistry.getClassNameFor("net/minecraft/client/entity/EntityClientPlayerMP"),
-                    MappingRegistry.getMethodNameFor("EntityClientPlayerMP.attackEntityFrom"),
-                    "(L" + MappingRegistry.getClassNameFor("net/minecraft/util/DamageSource") + ";F)Z",
-                    ""
-            ));
+            if (settings.HeartFlashFixEnabled) {
+                patchers.put("HeartFlashFix", new NextHeartFlashFixPatcher(
+                        "HeartFlashFix",
+                        MappingRegistry.getClassNameFor("net/minecraft/client/entity/EntityClientPlayerMP"),
+                        MappingRegistry.getMethodNameFor("EntityClientPlayerMP.attackEntityFrom"),
+                        "(L" + MappingRegistry.getClassNameFor("net/minecraft/util/DamageSource") + ";F)Z",
+                        ""
+                ));
+            }
 
-            patchers.add(new NextSnowballFixPatcher(
-                    "SnowballFix",
-                    MappingRegistry.getClassNameFor("net/minecraft/entity/player/EntityPlayer"),
-                    MappingRegistry.getMethodNameFor("EntityPlayer.attackEntityFrom"),
-                    "(L" + MappingRegistry.getClassNameFor("net/minecraft/util/DamageSource") + ";F)Z",
-                    ""
-            ));
+            if (settings.SnowballFixEnabled) {
+                patchers.put("SnowballFix", new NextSnowballFixPatcher(
+                        "SnowballFix",
+                        MappingRegistry.getClassNameFor("net/minecraft/entity/player/EntityPlayer"),
+                        MappingRegistry.getMethodNameFor("EntityPlayer.attackEntityFrom"),
+                        "(L" + MappingRegistry.getClassNameFor("net/minecraft/util/DamageSource") + ";F)Z",
+                        ""
+                ));
+            }
 
             String sig = "(L" + MappingRegistry.getClassNameFor("net/minecraft/item/ItemStack") + ";"
                     + "L" + MappingRegistry.getClassNameFor("net/minecraft/world/World") + ";"
                     + "L" + MappingRegistry.getClassNameFor("net/minecraft/block/Block") + ";"
                     + "IIIL" + MappingRegistry.getClassNameFor("net/minecraft/entity/EntityLivingBase") + ";)Z";
 
-            patchers.add(new NextToolDesyncFixPatcher(
-                    "ToolDesyncFix",
-                    MappingRegistry.getClassNameFor("net/minecraft/item/ItemTool"),
-                    MappingRegistry.getMethodNameFor("ItemTool.onBlockDestroyed"),
-                    sig, // break out into separate block above for readability
-                    ""
-            ));
+            if (settings.ToolDesyncFixEnabled) {
+                patchers.put("ToolDesyncFix", new NextToolDesyncFixPatcher(
+                        "ToolDesyncFix",
+                        MappingRegistry.getClassNameFor("net/minecraft/item/ItemTool"),
+                        MappingRegistry.getMethodNameFor("ItemTool.onBlockDestroyed"),
+                        sig, // break out into separate block above for readability
+                        ""
+                ));
+            }
 
             String sig2 = "(L" + MappingRegistry.getClassNameFor("net/minecraft/world/World") + ";"
                     + "Ljava/util/Random;"
                     + "L" + MappingRegistry.getClassNameFor("net/minecraft/world/gen/structure/StructureBoundingBox") + ";)Z";
 
-            patchers.add(new NextVillageAnvilTweakPatcher(
-                    "VillageAnvilTweak",
-                    MappingRegistry.getClassNameFor("net/minecraft/world/gen/structure/StructureVillagePieces$House2"),
-                    MappingRegistry.getMethodNameFor("StructureVillagePieces$House2.addComponentParts"),
-                    sig2, // break out into separate block above for readability
-                    MappingRegistry.getFieldNameFor("Blocks.double_stone_slab")
-            ));
+            if (settings.VillageAnvilTweakEnabled) {
+                patchers.put("VillageAnvilTweak", new NextVillageAnvilTweakPatcher(
+                        "VillageAnvilTweak",
+                        MappingRegistry.getClassNameFor("net/minecraft/world/gen/structure/StructureVillagePieces$House2"),
+                        MappingRegistry.getMethodNameFor("StructureVillagePieces$House2.addComponentParts"),
+                        sig2, // break out into separate block above for readability
+                        MappingRegistry.getFieldNameFor("Blocks.double_stone_slab")
+                ));
+            }
 
-            patchers.add(new NextXPFixPatcher(
-                    "XPFix",
-                    MappingRegistry.getClassNameFor("net/minecraft/client/network/NetHandlerPlayClient"),
-                    MappingRegistry.getMethodNameFor("NetHandlerPlayClient.handleSpawnExperienceOrb"),
-                    "(L" + MappingRegistry.getClassNameFor("net/minecraft/network/play/server/S11PacketSpawnExperienceOrb") + ";)V",
-                    ""
-            ));
+            if (settings.XPFixEnabled) {
+                patchers.put("XPFix", new NextXPFixPatcher(
+                        "XPFix",
+                        MappingRegistry.getClassNameFor("net/minecraft/client/network/NetHandlerPlayClient"),
+                        MappingRegistry.getMethodNameFor("NetHandlerPlayClient.handleSpawnExperienceOrb"),
+                        "(L" + MappingRegistry.getClassNameFor("net/minecraft/network/play/server/S11PacketSpawnExperienceOrb") + ";)V",
+                        ""
+                ));
+            }
         }
     }
 
