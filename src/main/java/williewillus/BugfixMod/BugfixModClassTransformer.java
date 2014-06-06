@@ -52,7 +52,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
 
             config.save();
 
-
+            MappingRegistry.init(par1isObf);
             hasInit = true;
         }
     }
