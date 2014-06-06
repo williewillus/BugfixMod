@@ -2,7 +2,6 @@ package williewillus.BugfixMod;
 
 import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraftforge.common.config.Configuration;
-import williewillus.BugfixMod.patchers.legacy.*;
 import williewillus.BugfixMod.patchers.nextGen.*;
 
 import java.io.File;
@@ -90,78 +89,6 @@ public class BugfixModClassTransformer implements IClassTransformer {
         return bytes;
     }
 
-    public byte[] transform2(String par1, String par2, byte[] bytes) {
-        if (par1.equals("net.minecraft.entity.projectile.EntityArrow") || par1.equals("xo")) {
-            if (settings.ArrowFixEnabled) {
-                return ArrowFixPatcher.patch(bytes, isObf);
-            } else {
-                System.out.println("ArrowFix disabled, skipping patch.");
-                return bytes;
-            }
-        }
-
-        if (par1.equals("net.minecraft.client.network.NetHandlerPlayClient") || par1.equals("biv")) {
-            if (settings.XPFixEnabled) {
-                return XPFixPatcher.patch(bytes, isObf);
-            } else {
-                System.out.println("XPFix disabled, skipping patch.");
-                return bytes;
-            }
-        }
-
-        if (par1.equals("net.minecraft.entity.player.EntityPlayer") || par1.equals("xl")) {
-            if (settings.SnowballFixEnabled) {
-                return SnowballFixPatcher.patch(bytes, isObf);
-            } else {
-                System.out.println("SnowballFix disabled, skipping patch.");
-                return bytes;
-            }
-        }
-
-        if (par1.equals("net.minecraft.client.gui.GuiNewChat") || par1.equals("bao")) {
-            if (settings.ChatOpacityFixEnabled) {
-                return ChatOpacityFixPatcher.patch(bytes, isObf);
-            } else {
-                System.out.println("ChatOpacityFix disabled, skipping patch");
-                return bytes;
-            }
-        }
-
-        if (par1.equals("net.minecraft.entity.passive.EntityChicken") || par1.equals("us")) {
-            if (settings.ChickenLureFixEnabled) {
-                return ChickenLureFixPatcher.patch(bytes, isObf);
-            } else {
-                System.out.println("ChickenLureFix disabled, skipping patch");
-                return bytes;
-            }
-        }
-
-        if (par1.equals("net.minecraft.world.gen.structure.StructureVillagePieces$House2") || par1.equals("auk")) {
-            if (settings.VillageAnvilTweakEnabled) {
-                return VillageAnvilTweakPatcher.patch(bytes, isObf);
-            } else {
-                System.out.println("VillageAnvilTweak disabled, skipping patch");
-            }
-        }
-
-        if (par1.equals("net.minecraft.item.ItemTool") || par1.equals("aas")) {
-            if (settings.ToolDesyncFixEnabled) {
-                return ToolDesyncFixPatcher.patch(bytes, isObf);
-            } else {
-                System.out.println("ToolDesyncFix disabled, skipping patch");
-            }
-        }
-
-        if (par1.equals("net.minecraft.client.entity.EntityClientPlayerMP") || par1.equals("bje")) {
-            if (settings.HeartFlashFixEnabled) {
-                return HeartFlashFixPatcher.patch(bytes, isObf);
-            } else {
-                System.out.println("HeartFlashFix disabled, skipping patch");
-            }
-        }
-
-        return bytes;
-    }
 
     private void setupPatchers() {
         if (patchers != null) {
