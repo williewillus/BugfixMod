@@ -1,4 +1,4 @@
-package williewillus.BugfixMod.patchers;
+package williewillus.BugfixMod.patchers.legacy;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
@@ -14,6 +14,7 @@ import java.util.Iterator;
 /**
  * Created by Vincent on 3/15/14.
  */
+@Deprecated
 public class VillageAnvilTweakPatcher {
     public static byte[] patch(byte[] bytes, boolean isObf) {
         String targetMethodName = MappingRegistry.getMethodNameFor("net.minecraft.world.gen.structure.StructureVillagePieces$House2.addComponentParts");

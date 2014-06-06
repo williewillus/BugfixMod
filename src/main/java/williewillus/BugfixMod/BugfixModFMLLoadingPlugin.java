@@ -29,8 +29,6 @@ public class BugfixModFMLLoadingPlugin implements IFMLLoadingPlugin, IFMLCallHoo
 
     public void injectData(Map<String, Object> data) {
         BugfixModClassTransformer.instance.settingsFile = new File(((File) data.get("mcLocation")).getPath() + "/config/BugfixMod.cfg");
-
-
         BugfixModClassTransformer.instance.initialize((Boolean) data.get("runtimeDeobfuscationEnabled"));
 
     }

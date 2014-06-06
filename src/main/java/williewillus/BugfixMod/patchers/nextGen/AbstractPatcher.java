@@ -19,11 +19,12 @@ public abstract class AbstractPatcher {
     protected String targetFieldName;
     public String name;
 
-    public AbstractPatcher(String par1, String par2, String par3, String par4) {
-        name = par1;
-        targetClassName = par2;
-        targetMethodName = par3;
-        targetMethodDesc = par4;
+    public AbstractPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
+        this.name = name;
+        this.targetClassName = targetClassName;
+        this.targetMethodName = targetMethodName;
+        this.targetMethodDesc = targetMethodDesc;
+        this.targetFieldName = targetFieldName;
     }
 
     public byte[] patch(byte[] bytes) {
@@ -31,25 +32,32 @@ public abstract class AbstractPatcher {
         ClassReader classReader = new ClassReader(bytes);
         classReader.accept(classNode, 0);
 
-
-        for (MethodNode m : classNode.methods) {
-            if (m.name.equals(targetMethodName) && m.desc.equals(targetMethodDesc)) {
-                printMessage("Found target method");
-                AbstractInsnNode currentInstruction;
-                Iterator<AbstractInsnNode> instructionSet = m.instructions.iterator();
-                while (instructionSet.hasNext()) {
-                    currentInstruction = instructionSet.next();
-                    InsnList toInject = buildNewInsns(currentInstruction, instructionSet);
-                    if (toInject.size() > 0) {
-                        m.instructions.insert(currentInstruction, toInject);
+        if (classNode.name.equals(targetClassName)) {
+            for (MethodNode m : classNode.methods) {
+                if (m.name.equals(targetMethodName) && m.desc.equals(targetMethodDesc)) {
+                    printMessage("Found target method");
+                    AbstractInsnNode currentInstruction;
+                    Iterator<AbstractInsnNode> instructionSet = m.instructions.iterator();
+                    while (instructionSet.hasNext()) {
+                        currentInstruction = instructionSet.next();
+                        if (this instanceof AbstractRemovalPatcher) {
+                            ((AbstractRemovalPatcher)this).removeInsns(currentInstruction, instructionSet, m.instructions);
+                        } else {
+                            InsnList toInject = buildNewInsns(currentInstruction, instructionSet);
+                            if (toInject.size() > 0) {
+                                m.instructions.insert(currentInstruction, toInject);
+                            }
+                        }
                     }
                 }
             }
+            ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+            classNode.accept(writer);
+            printMessage("Applied transform!");
+            return writer.toByteArray();
+        } else {
+            return bytes;
         }
-        ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-        classNode.accept(writer);
-        printMessage("Applied transform!");
-        return writer.toByteArray();
     }
 
     public abstract InsnList buildNewInsns(AbstractInsnNode currentInstruction, Iterator<AbstractInsnNode> instructionSet);

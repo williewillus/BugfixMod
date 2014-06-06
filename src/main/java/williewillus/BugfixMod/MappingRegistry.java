@@ -72,8 +72,8 @@ public class MappingRegistry {
                 fieldMap.put("World.isRemote", "E");
 
                 // VillageAnvilTweak
-                classMap.put("net.minecraft.world.gen.structure.StructureVillagePieces$House2", "auk");
-                methodMap.put("net.minecraft.world.gen.structure.StructureVillagePieces$House2.addComponentParts", "a");
+                classMap.put("net/minecraft/world/gen/structure/StructureVillagePieces$House2", "auk");
+                methodMap.put("StructureVillagePieces$House2.addComponentParts", "a");
 
                 classMap.put("net/minecraft/world/gen/structure/StructureBoundingBox", "arh");
 
@@ -85,7 +85,7 @@ public class MappingRegistry {
                 classMap.put("net/minecraft/client/network/NetHandlerPlayClient", "biv");
                 methodMap.put("NetHandlerPlayClient.handleSpawnExperienceOrb", "a");
 
-                classMap.put("net/minecraft/network/play/server/S11PacketSpawnExperieneOrb", "fo");
+                classMap.put("net/minecraft/network/play/server/S11PacketSpawnExperienceOrb", "fo");
             }
             hasInit = true;
         }
@@ -102,7 +102,7 @@ public class MappingRegistry {
                 return par1.replaceAll("/", ".");
             }
         } else {
-            return classMap.get(par1);
+            return classMap.get(par1.replaceAll("\\.", "/"));
         }
     }
 

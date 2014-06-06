@@ -1,4 +1,4 @@
-package williewillus.BugfixMod.patchers;
+package williewillus.BugfixMod.patchers.legacy;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
@@ -11,6 +11,7 @@ import williewillus.BugfixMod.MappingRegistry;
 /**
  * Created by Vincent on 3/11/14.
  */
+@Deprecated
 public class SnowballFixPatcher {
 
     public static byte[] patch(byte[] bytes, boolean isObf) {

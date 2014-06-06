@@ -11,8 +11,9 @@ import java.util.Iterator;
  */
 public class NextArrowFixPatcher extends AbstractPatcher {
 
-    public NextArrowFixPatcher(String par1, String par2, String par3, String par4) {
-        super(par1, par2, par3, par4);
+
+    public NextArrowFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
+        super(name, targetClassName, targetMethodName, targetMethodDesc, targetFieldName);
     }
 
     @Override

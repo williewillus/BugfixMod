@@ -12,8 +12,9 @@ import java.util.Iterator;
  * Created by Vincent on 6/6/2014.
  */
 public class NextChatOpacityFixPatcher extends AbstractPatcher {
-    public NextChatOpacityFixPatcher(String par1, String par2, String par3, String par4) {
-        super(par1, par2, par3, par4);
+
+    public NextChatOpacityFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
+        super(name, targetClassName, targetMethodName, targetMethodDesc, targetFieldName);
     }
 
     @Override

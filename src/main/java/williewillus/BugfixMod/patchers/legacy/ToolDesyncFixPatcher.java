@@ -1,4 +1,4 @@
-package williewillus.BugfixMod.patchers;
+package williewillus.BugfixMod.patchers.legacy;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
@@ -11,6 +11,7 @@ import java.util.Iterator;
 /**
  * Created by Vincent on 3/21/2014.
  */
+@Deprecated
 public class ToolDesyncFixPatcher {
     public static byte[] patch(byte[] bytes, boolean isObf) {
         String targetMethodName = MappingRegistry.getMethodNameFor("ItemTool.onBlockDestroyed");
