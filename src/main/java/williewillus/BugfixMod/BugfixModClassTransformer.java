@@ -5,8 +5,7 @@ import net.minecraftforge.common.config.Configuration;
 import williewillus.BugfixMod.patchers.nextGen.*;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 
 /**
@@ -18,8 +17,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
     public File settingsFile;
     private boolean hasInit = false;
     private BugFixModSettings settings;
-    private boolean isObf;
-    private HashMap<String, AbstractPatcher> patchers;
+    private ArrayList<AbstractPatcher> patchers;
 
     public BugfixModClassTransformer() {
         if (instance != null) {
@@ -31,8 +29,6 @@ public class BugfixModClassTransformer implements IClassTransformer {
 
     public void initialize(Boolean par1isObf) {
         if (!hasInit) {
-            isObf = par1isObf;
-
             Configuration config = new Configuration(settingsFile);
             config.load();
             settings = new BugFixModSettings();
@@ -60,8 +56,8 @@ public class BugfixModClassTransformer implements IClassTransformer {
 
     public byte[] transform(String par1, String par2, byte[] bytes) {
         if (hasInit) {
-            for (Map.Entry<String, AbstractPatcher> patcherEntry : patchers.entrySet()) {
-                bytes = patcherEntry.getValue().patch(bytes);
+            for (AbstractPatcher p : patchers) {
+                bytes = p.patch(bytes);
             }
         }
         return bytes;
@@ -72,10 +68,10 @@ public class BugfixModClassTransformer implements IClassTransformer {
         if (patchers != null) {
             System.out.println("Patcher already initialized!!");
         } else {
-            patchers = new HashMap<String, AbstractPatcher>();
+            patchers = new ArrayList<AbstractPatcher>();
 
             if (settings.ArrowFixEnabled) {
-                patchers.put("ArrowFix", new ArrowFixPatcher(
+                patchers.add(new ArrowFixPatcher(
                         "ArrowFix",
                         MappingRegistry.getClassNameFor("net/minecraft/entity/projectile/EntityArrow"),
                         MappingRegistry.getMethodNameFor("EntityArrow.onUpdate"),
@@ -85,7 +81,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
             }
 
             if (settings.ChatOpacityFixEnabled) {
-                patchers.put("ChatOpacityFix", new ChatOpacityFixPatcher(
+                patchers.add(new ChatOpacityFixPatcher(
                         "ChatOpacityFix",
                         MappingRegistry.getClassNameFor("net/minecraft/client/gui/GuiNewChat"),
                         MappingRegistry.getMethodNameFor("GuiNewChat.drawChat"),
@@ -95,7 +91,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
             }
 
             if (settings.ChickenLureFixEnabled) {
-                patchers.put("ChickenLureFix", new ChickenLureFixPatcher(
+                patchers.add(new ChickenLureFixPatcher(
                         "ChickenLureFix",
                         MappingRegistry.getClassNameFor("net/minecraft/entity/passive/EntityChicken"),
                         "<init>",
@@ -105,7 +101,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
             }
 
             if (settings.HeartFlashFixEnabled) {
-                patchers.put("HeartFlashFix", new HeartFlashFixPatcher(
+                patchers.add(new HeartFlashFixPatcher(
                         "HeartFlashFix",
                         MappingRegistry.getClassNameFor("net/minecraft/client/entity/EntityClientPlayerMP"),
                         MappingRegistry.getMethodNameFor("EntityClientPlayerMP.attackEntityFrom"),
@@ -115,7 +111,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
             }
 
             if (settings.SnowballFixEnabled) {
-                patchers.put("SnowballFix", new SnowballFixPatcher(
+                patchers.add(new SnowballFixPatcher(
                         "SnowballFix",
                         MappingRegistry.getClassNameFor("net/minecraft/entity/player/EntityPlayer"),
                         MappingRegistry.getMethodNameFor("EntityPlayer.attackEntityFrom"),
@@ -130,7 +126,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
                     + "IIIL" + MappingRegistry.getClassNameFor("net/minecraft/entity/EntityLivingBase") + ";)Z";
 
             if (settings.ToolDesyncFixEnabled) {
-                patchers.put("ToolDesyncFix", new ToolDesyncFixPatcher(
+                patchers.add(new ToolDesyncFixPatcher(
                         "ToolDesyncFix",
                         MappingRegistry.getClassNameFor("net/minecraft/item/ItemTool"),
                         MappingRegistry.getMethodNameFor("ItemTool.onBlockDestroyed"),
@@ -144,7 +140,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
                     + "L" + MappingRegistry.getClassNameFor("net/minecraft/world/gen/structure/StructureBoundingBox") + ";)Z";
 
             if (settings.VillageAnvilTweakEnabled) {
-                patchers.put("VillageAnvilTweak", new VillageAnvilTweakPatcher(
+                patchers.add(new VillageAnvilTweakPatcher(
                         "VillageAnvilTweak",
                         MappingRegistry.getClassNameFor("net/minecraft/world/gen/structure/StructureVillagePieces$House2"),
                         MappingRegistry.getMethodNameFor("StructureVillagePieces$House2.addComponentParts"),
@@ -154,7 +150,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
             }
 
             if (settings.XPFixEnabled) {
-                patchers.put("XPFix", new XPFixPatcher(
+                patchers.add(new XPFixPatcher(
                         "XPFix",
                         MappingRegistry.getClassNameFor("net/minecraft/client/network/NetHandlerPlayClient"),
                         MappingRegistry.getMethodNameFor("NetHandlerPlayClient.handleSpawnExperienceOrb"),
@@ -164,7 +160,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
             }
 
             if (settings.ItemStairBounceFixEnabled) {
-                patchers.put("ItemStairBounceFix", new ItemStairBounceFixPatcher(
+                patchers.add(new ItemStairBounceFixPatcher(
                     "ItemStairBounceFix",
                     MappingRegistry.getClassNameFor("net/minecraft/block/BlockStairs"),
                     MappingRegistry.getMethodNameFor("BlockStairs.addCollisionBoxesToList"),
@@ -180,7 +176,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
             }
 
             if (settings.ItemHopperBounceFixEnabled) {
-                patchers.put("ItemHopperBounceFix", new ItemHopperBounceFixPatcher(
+                patchers.add(new ItemHopperBounceFixPatcher(
                         "ItemHopperBounceFix",
                         MappingRegistry.getClassNameFor("net/minecraft/block/BlockHopper"),
                         MappingRegistry.getMethodNameFor("BlockHopper.addCollisionBoxesToList"),

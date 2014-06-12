@@ -96,7 +96,7 @@ public class MappingRegistry {
                 methodMap.put("BlockStairs.setBlockBounds", "a");
 
                 // ItemHopperBounceFix
-                classMap.put("net/mineraft/block/BlockHopper", "ajz");
+                classMap.put("net/minecraft/block/BlockHopper", "ajz");
 
                 methodMap.put("BlockHopper.addCollisionBoxesToList", "a");
                 methodMap.put("BlockHopper.setBlockBounds", "a");
