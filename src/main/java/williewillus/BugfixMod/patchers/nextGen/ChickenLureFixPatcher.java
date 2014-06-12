@@ -9,9 +9,9 @@ import java.util.Iterator;
 /**
  * Created by Vincent on 6/6/2014.
  */
-public class NextChickenLureFixPatcher extends AbstractPatcher {
+public class ChickenLureFixPatcher extends AbstractPatcher {
 
-    public NextChickenLureFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
+    public ChickenLureFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
         super(name, targetClassName, targetMethodName, targetMethodDesc, targetFieldName);
     }
 

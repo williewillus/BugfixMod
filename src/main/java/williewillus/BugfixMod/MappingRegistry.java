@@ -86,6 +86,21 @@ public class MappingRegistry {
                 methodMap.put("NetHandlerPlayClient.handleSpawnExperienceOrb", "a");
 
                 classMap.put("net/minecraft/network/play/server/S11PacketSpawnExperienceOrb", "fo");
+
+                // ItemStairBounceFix
+                classMap.put("net/minecraft/block/BlockStairs", "ame");
+                classMap.put("net/minecraft/util/AxisAlignedBB", "ayf");
+                classMap.put("net/minecraft/entity/Entity", "qn");
+
+                methodMap.put("BlockStairs.addCollisionBoxesToList", "a");
+                methodMap.put("BlockStairs.setBlockBounds", "a");
+
+                // ItemHopperBounceFix
+                classMap.put("net/mineraft/block/BlockHopper", "ajz");
+
+                methodMap.put("BlockHopper.addCollisionBoxesToList", "a");
+                methodMap.put("BlockHopper.setBlockBounds", "a");
+
             }
             hasInit = true;
         }

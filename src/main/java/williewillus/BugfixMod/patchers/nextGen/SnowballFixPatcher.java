@@ -9,9 +9,9 @@ import java.util.Iterator;
 /**
  * Created by Vincent on 6/6/2014.
  */
-public class NextSnowballFixPatcher extends AbstractPatcher implements AbstractRemovalPatcher {
+public class SnowballFixPatcher extends AbstractPatcher implements ModificationPatcher {
 
-    public NextSnowballFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
+    public SnowballFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
         super(name, targetClassName, targetMethodName, targetMethodDesc, targetFieldName);
     }
 
@@ -21,7 +21,7 @@ public class NextSnowballFixPatcher extends AbstractPatcher implements AbstractR
     }
 
     @Override
-    public void removeInsns(AbstractInsnNode currentInstruction, Iterator<AbstractInsnNode> instructionSet, InsnList instructions) {
+    public void modifyInsns(AbstractInsnNode currentInstruction, Iterator<AbstractInsnNode> instructionSet, InsnList instructions) {
         for (int i = 0; i < instructions.size(); i++) {
             if (instructions.get(i).getOpcode() == Opcodes.IFNE && instructions.get(i).getPrevious().getOpcode() == Opcodes.FCMPL) {
                 printMessage("Found entry point: " + i);

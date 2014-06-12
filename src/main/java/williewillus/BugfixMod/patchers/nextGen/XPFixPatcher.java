@@ -8,9 +8,9 @@ import java.util.Iterator;
 /**
  * Created by Vincent on 6/6/2014.
  */
-public class NextXPFixPatcher extends AbstractPatcher {
+public class XPFixPatcher extends AbstractPatcher {
 
-    public NextXPFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
+    public XPFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
         super(name, targetClassName, targetMethodName, targetMethodDesc, targetFieldName);
     }
 

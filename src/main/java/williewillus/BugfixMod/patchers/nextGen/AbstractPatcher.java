@@ -13,14 +13,14 @@ import java.util.Iterator;
  * Created by Vincent on 6/6/2014.
  */
 public abstract class AbstractPatcher {
-    public String name;
+    public String patcherName;
     protected String targetClassName;
     protected String targetMethodName;
     protected String targetMethodDesc;
     protected String targetFieldName;
 
     public AbstractPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
-        this.name = name;
+        this.patcherName = name;
         this.targetClassName = targetClassName;
         this.targetMethodName = targetMethodName;
         this.targetMethodDesc = targetMethodDesc;
@@ -40,8 +40,8 @@ public abstract class AbstractPatcher {
                     Iterator<AbstractInsnNode> instructionSet = m.instructions.iterator();
                     while (instructionSet.hasNext()) {
                         currentInstruction = instructionSet.next();
-                        if (this instanceof AbstractRemovalPatcher) {
-                            ((AbstractRemovalPatcher) this).removeInsns(currentInstruction, instructionSet, m.instructions);
+                        if (this instanceof ModificationPatcher) {
+                            ((ModificationPatcher) this).modifyInsns(currentInstruction, instructionSet, m.instructions);
                         } else {
                             InsnList toInject = buildNewInsns(currentInstruction, instructionSet);
                             if (toInject.size() > 0) {
@@ -63,6 +63,6 @@ public abstract class AbstractPatcher {
     public abstract InsnList buildNewInsns(AbstractInsnNode currentInstruction, Iterator<AbstractInsnNode> instructionSet);
 
     public void printMessage(String par1) {
-        System.out.println("[" + name + "] " + par1);
+        System.out.println("[" + patcherName + "] " + par1);
     }
 }

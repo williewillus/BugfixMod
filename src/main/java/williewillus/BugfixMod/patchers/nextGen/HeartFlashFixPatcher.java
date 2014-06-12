@@ -9,9 +9,9 @@ import java.util.Iterator;
 /**
  * Created by Vincent on 6/6/2014.
  */
-public class NextHeartFlashFixPatcher extends AbstractPatcher {
+public class HeartFlashFixPatcher extends AbstractPatcher {
 
-    public NextHeartFlashFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
+    public HeartFlashFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
         super(name, targetClassName, targetMethodName, targetMethodDesc, targetFieldName);
     }
 

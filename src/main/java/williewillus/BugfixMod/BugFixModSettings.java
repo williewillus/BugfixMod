@@ -13,4 +13,6 @@ public class BugFixModSettings {
     public boolean VillageAnvilTweakEnabled;
     public boolean ToolDesyncFixEnabled;
     public boolean HeartFlashFixEnabled;
+    public boolean ItemHopperBounceFixEnabled;
+    public boolean ItemStairBounceFixEnabled;
 }

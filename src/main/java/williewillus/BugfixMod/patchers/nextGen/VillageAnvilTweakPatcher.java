@@ -11,9 +11,9 @@ import java.util.Iterator;
 /**
  * Created by Vincent on 6/6/2014.
  */
-public class NextVillageAnvilTweakPatcher extends AbstractPatcher implements AbstractRemovalPatcher {
+public class VillageAnvilTweakPatcher extends AbstractPatcher implements ModificationPatcher {
 
-    public NextVillageAnvilTweakPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
+    public VillageAnvilTweakPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
         super(name, targetClassName, targetMethodName, targetMethodDesc, targetFieldName);
     }
 
@@ -24,7 +24,7 @@ public class NextVillageAnvilTweakPatcher extends AbstractPatcher implements Abs
 
 
     @Override
-    public void removeInsns(AbstractInsnNode currentInstruction, Iterator<AbstractInsnNode> instructionSet, InsnList instructions) {
+    public void modifyInsns(AbstractInsnNode currentInstruction, Iterator<AbstractInsnNode> instructionSet, InsnList instructions) {
         if (currentInstruction instanceof FieldInsnNode) {
             FieldInsnNode f = (FieldInsnNode) currentInstruction;
             if (f.name.equals(targetFieldName)) {
