@@ -46,6 +46,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
             settings.ChatOpacityFixEnabled = config.get("CLIENT", "ChatOpacityFixEnabled", true).getBoolean(true);
             settings.ToolDesyncFixEnabled = config.get("CLIENT", "ToolDesyncFixEnabled", false).getBoolean(false);
             settings.HeartFlashFixEnabled = config.get("CLIENT", "HeartFlashFixEnabled", true).getBoolean(true);
+            settings.ArrowDingTweakEnabled = config.get("CLIENT", "ArrowDingTweakEnabled", true).getBoolean(true);
 
             config.save();
             MappingRegistry.init(par1isObf);
@@ -188,6 +189,16 @@ public class BugfixModClassTransformer implements IClassTransformer {
                                 MappingRegistry.getClassNameFor("net/minecraft/entity/Entity")
                                 + ";)V",
                         ""
+                ));
+            }
+
+            if (settings.ArrowDingTweakEnabled) {
+                patchers.add(new ArrowDingTweakPatcher(
+                    "ArrowDingTweak",
+                    MappingRegistry.getClassNameFor("net/minecraft/entity/projectile/EntityArrow"),
+                    MappingRegistry.getMethodNameFor("EntityArrow.onUpdate"),
+                    "()V",
+                    ""
                 ));
             }
         }

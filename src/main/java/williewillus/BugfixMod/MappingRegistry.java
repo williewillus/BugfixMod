@@ -101,6 +101,8 @@ public class MappingRegistry {
                 methodMap.put("BlockHopper.addCollisionBoxesToList", "a");
                 methodMap.put("BlockHopper.setBlockBounds", "a");
 
+                // ArrowDingTweak
+                classMap.put("net/minecraft/entity/monster/IMob", "wn");
             }
             hasInit = true;
         }

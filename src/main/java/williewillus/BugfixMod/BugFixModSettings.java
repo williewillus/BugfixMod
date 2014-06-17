@@ -15,4 +15,5 @@ public class BugFixModSettings {
     public boolean HeartFlashFixEnabled;
     public boolean ItemHopperBounceFixEnabled;
     public boolean ItemStairBounceFixEnabled;
+    public boolean ArrowDingTweakEnabled;
 }
