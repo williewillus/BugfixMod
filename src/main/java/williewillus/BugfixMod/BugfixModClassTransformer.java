@@ -46,7 +46,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
             settings.ChatOpacityFixEnabled = config.get("CLIENT", "ChatOpacityFixEnabled", true).getBoolean(true);
             settings.ToolDesyncFixEnabled = config.get("CLIENT", "ToolDesyncFixEnabled", false).getBoolean(false);
             settings.HeartFlashFixEnabled = config.get("CLIENT", "HeartFlashFixEnabled", true).getBoolean(true);
-            settings.ArrowDingTweakEnabled = config.get("CLIENT", "ArrowDingTweakEnabled", true).getBoolean(true);
+            settings.ArrowDingTweakEnabled = config.get("CLIENT", "ArrowDingTweakEnabled", false).getBoolean(false);
 
             config.save();
             MappingRegistry.init(par1isObf);
