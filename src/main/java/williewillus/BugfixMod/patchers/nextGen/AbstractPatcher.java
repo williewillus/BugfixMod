@@ -62,7 +62,7 @@ public abstract class AbstractPatcher {
 
     public abstract InsnList buildNewInsns(AbstractInsnNode currentInstruction, Iterator<AbstractInsnNode> instructionSet);
 
-    public void printMessage(String par1) {
-        System.out.println("[" + patcherName + "] " + par1);
+    public void printMessage(String message) {
+        System.out.println("[" + patcherName + "] " + message);
     }
 }

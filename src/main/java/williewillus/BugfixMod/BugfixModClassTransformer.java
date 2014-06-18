@@ -27,7 +27,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
         }
     }
 
-    public void initialize(Boolean par1isObf) {
+    public void initialize(Boolean isObf) {
         if (!hasInit) {
             Configuration config = new Configuration(settingsFile);
             config.load();
@@ -49,7 +49,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
             settings.ArrowDingTweakEnabled = config.get("CLIENT", "ArrowDingTweakEnabled", false).getBoolean(false);
 
             config.save();
-            MappingRegistry.init(par1isObf);
+            MappingRegistry.init(isObf);
             setupPatchers();
             hasInit = true;
         }

@@ -13,10 +13,10 @@ public class MappingRegistry {
     private static boolean hasInit = false;
     private static boolean isObf;
 
-    public static void init(boolean isObfuscated) {
+    public static void init(boolean isObf) {
         if (!hasInit) {
-            isObf = isObfuscated;
-            if (isObf) {
+            MappingRegistry.isObf = isObf;
+            if (MappingRegistry.isObf) {
                 // ArrowFix
                 classMap.put("net/minecraft/entity/projectile/EntityArrow", "xo");
                 fieldMap.put("EntityArrow.worldObj", "p");
@@ -110,38 +110,38 @@ public class MappingRegistry {
 
     }
 
-    public static String getClassNameFor(String par1, boolean par2) {
+    public static String getClassNameFor(String request, boolean useSlashes) {
         // par2 - should the deobfuscated name be delimited by slashes (true) or periods (false)
         if (!isObf) {
-            if (par2) {
-                return par1.replaceAll("\\.", "/");
+            if (useSlashes) {
+                return request.replaceAll("\\.", "/");
             } else {
-                return par1.replaceAll("/", ".");
+                return request.replaceAll("/", ".");
             }
         } else {
-            return classMap.get(par1.replaceAll("\\.", "/"));
+            return classMap.get(request.replaceAll("\\.", "/"));
         }
     }
 
-    public static String getClassNameFor(String par1) {
-        return getClassNameFor(par1, true);
+    public static String getClassNameFor(String request) {
+        return getClassNameFor(request, true);
     }
 
-    public static String getFieldNameFor(String par1) {
+    public static String getFieldNameFor(String request) {
         // par1 will be in the format className.fieldName
         if (!isObf) {
-            return par1.substring(par1.lastIndexOf(".") + 1); // return second half, the fieldname
+            return request.substring(request.lastIndexOf(".") + 1); // return second half, the fieldname
         } else {
-            return fieldMap.get(par1);
+            return fieldMap.get(request);
         }
     }
 
-    public static String getMethodNameFor(String par1) {
+    public static String getMethodNameFor(String request) {
         // par1 will be in the format className.methodName
         if (!isObf) {
-            return par1.substring(par1.lastIndexOf(".") + 1); // return second half, the methodname
+            return request.substring(request.lastIndexOf(".") + 1); // return second half, the methodname
         } else {
-            return methodMap.get(par1);
+            return methodMap.get(request);
         }
     }
 }
