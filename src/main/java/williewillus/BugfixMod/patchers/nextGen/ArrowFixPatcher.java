@@ -1,8 +1,7 @@
 package williewillus.BugfixMod.patchers.nextGen;
 
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.*;
-import williewillus.BugfixMod.MappingRegistry;
+import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.InsnList;
 
 import java.util.Iterator;
 

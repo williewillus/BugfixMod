@@ -71,15 +71,17 @@ public class BugfixModClassTransformer implements IClassTransformer {
         } else {
             patchers = new ArrayList<AbstractPatcher>();
 
-            if (settings.ArrowFixEnabled) {
-                patchers.add(new ArrowFixPatcher(
-                        "ArrowFix",
-                        MappingRegistry.getClassNameFor("net/minecraft/entity/projectile/EntityArrow"),
-                        MappingRegistry.getMethodNameFor("EntityArrow.onUpdate"),
-                        "()V",
-                        MappingRegistry.getFieldNameFor("EntityArrow.field_145790_g")
-                ));
-            }
+            //if (settings.ArrowFixEnabled) {
+            //    patchers.add(new ArrowFixPatcher(
+            //            "ArrowFix",
+            //            MappingRegistry.getClassNameFor("net/minecraft/entity/projectile/EntityArrow"),
+            //            MappingRegistry.getMethodNameFor("EntityArrow.onUpdate"),
+            //            "()V",
+            //            MappingRegistry.getFieldNameFor("EntityArrow.field_145790_g")
+            //    ));
+            //}
+			
+			// ArrowFix's bug has been FIXED by Mojang as of Minecraft 1.7.6. YAY!
 
             if (settings.ChatOpacityFixEnabled) {
                 patchers.add(new ChatOpacityFixPatcher(
