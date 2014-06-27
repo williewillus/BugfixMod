@@ -34,8 +34,8 @@ archivesBaseName = "[${config.minecraft_version}]${config.mod_id}"
 minecraft {
     version = config.minecraft_version + "-" + config.forge_version // grab latest forge
     assetDir = "run/assets"
-
-	replaceIn "Reference.java"
+	
+	replaceIn "BugfixModDummyContainer.java"
 	replace "@VERSION@", "${config.mod_version}"
 }
 
@@ -67,7 +67,7 @@ processResources {
 jar {
     appendix = 'universal'
     manifest {
-        attributes 'FMLCorePlugin': 'williewillus.WillieTweaks.common.asm.ASMFMLLoadingPlugin'
+        attributes 'FMLCorePlugin': 'williewillus.BugfixMod.BugfixModFMLLoadingPlugin'
     }
 }
 

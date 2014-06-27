@@ -1,4 +1,4 @@
-package williewillus.WillieTweaks.common;
+package williewillus.BugfixMod;
 
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;

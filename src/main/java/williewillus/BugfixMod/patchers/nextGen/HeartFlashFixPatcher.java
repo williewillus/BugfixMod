@@ -1,8 +1,8 @@
-package williewillus.WillieTweaks.common.asm.patchers;
+package williewillus.BugfixMod.patchers.nextGen;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
-import williewillus.WillieTweaks.common.asm.MappingRegistry;
+import williewillus.BugfixMod.MappingRegistry;
 
 import java.util.Iterator;
 

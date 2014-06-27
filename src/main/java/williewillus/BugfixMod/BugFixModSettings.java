@@ -1,9 +1,9 @@
-package williewillus.WillieTweaks.common;
+package williewillus.BugfixMod;
 
 /**
  * Created by Vincent on 3/10/14.
  */
-public class WillieTweaksSettings {
+public class BugFixModSettings {
     public boolean XPFixEnabled;
     public boolean ArrowFixEnabled;
     public boolean SnowballFixEnabled;
