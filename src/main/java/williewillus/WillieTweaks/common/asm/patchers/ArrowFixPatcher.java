@@ -1,4 +1,4 @@
-package williewillus.BugfixMod.patchers.nextGen;
+package williewillus.WillieTweaks.common.asm.patchers;
 
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.InsnList;
@@ -18,7 +18,7 @@ public class ArrowFixPatcher extends AbstractPatcher {
     @Override
     public InsnList buildNewInsns(AbstractInsnNode currentInstruction, Iterator<AbstractInsnNode> instructionSet) {
         InsnList toInject = new InsnList();
-        if (currentInstruction instanceof FieldInsnNode) {
+        /*if (currentInstruction instanceof FieldInsnNode) {
             if (((FieldInsnNode) currentInstruction).name.equals(targetFieldName) && currentInstruction.getOpcode() == Opcodes.PUTFIELD) {
                 printMessage("Found entry point!");
                 String entityArrowName = MappingRegistry.getClassNameFor("net/minecraft/entity/projectile/EntityArrow");
@@ -37,7 +37,8 @@ public class ArrowFixPatcher extends AbstractPatcher {
                 //Get block at the arrow's coordinates and assign it to field_145790_g, overriding the incorrect assignment just before insertion.
                 printMessage("Injected new field assignment!");
             }
-        }
+        }*/
+		// No longer necessary on MC 1.7.6+
         return toInject;
     }
 }

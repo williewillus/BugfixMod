@@ -1,4 +1,4 @@
-package williewillus.BugfixMod.patchers.nextGen;
+package williewillus.WillieTweaks.common.asm.patchers;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -24,10 +24,10 @@ public class SnowballFixPatcher extends AbstractPatcher implements ModificationP
     public void modifyInsns(AbstractInsnNode currentInstruction, Iterator<AbstractInsnNode> instructionSet, InsnList instructions) {
         for (int i = 0; i < instructions.size(); i++) {
             if (instructions.get(i).getOpcode() == Opcodes.IFNE && instructions.get(i).getPrevious().getOpcode() == Opcodes.FCMPL) {
-                printMessage("Found entry point: " + i);
                 if (instructions.get(i + 3).getOpcode() == Opcodes.ICONST_0) {
                     instructions.remove(instructions.get(i).getNext().getNext().getNext().getNext());
                     instructions.remove(instructions.get(i).getNext().getNext().getNext());
+                    printMessage("Removed instructions");
                     //Remove instruction to return without action when damagesource health is 0. In other words, being dealt 0 damage shows everything associated with damage.
                     //Including gui tilt, heart flash, sound, and, most importantly, knockback. This was behavior in older versions but was somehow removed in more recent years.
                 }

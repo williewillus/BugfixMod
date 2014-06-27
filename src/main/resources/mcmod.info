@@ -1,9 +1,10 @@
 {
   "modListVersion": 2,
-  "modList": [{
-    "modid": "BugfixMod",
-    "name": "BugFixMod",
-    "description": "Combination of all my other bugfix mods.",
+  "modList": [
+  {
+    "modid": "WillieTweaks|ASM",
+    "name": "WillieTweaks|ASM",
+    "description": "ASM / base-class transform fixes.",
     "version": "${mod_version}",
     "mcversion": "${minecraft_version}",
     "url": "https://github.com/williewillus/BugfixMod",
@@ -17,5 +18,24 @@
     "dependencies": [],
     "dependants": [],
     "useDependencyInformation": "true"
-  }]
+  },
+  {
+    "modid": "WillieTweaks",
+    "name": "WillieTweaks",
+    "description": "Non-ASM gameplay tweaks and bugfixes.",
+    "version": "${mod_version}",
+    "mcversion": "${minecraft_version}",
+    "url": "https://github.com/williewillus/BugfixMod",
+    "updateUrl": "",
+    "authorList": [ "williewillus" ],
+    "credits": "Forge, Mojang",
+    "logoFile": "",
+    "screenshots": [],
+    "parent": "",
+    "requiredMods": [],
+    "dependencies": [],
+    "dependants": [],
+    "useDependencyInformation": "true"
+  }
+  ]
 }

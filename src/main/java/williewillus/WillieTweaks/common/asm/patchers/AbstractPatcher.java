@@ -1,4 +1,4 @@
-package williewillus.BugfixMod.patchers.nextGen;
+package williewillus.WillieTweaks.common.asm.patchers;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
