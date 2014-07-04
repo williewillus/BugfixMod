@@ -25,6 +25,7 @@ public class ChatOpacityFixPatcher extends AbstractPatcher {
             AbstractInsnNode entryPoint = currentInstruction.getNext().getNext();
             toInject.add(new IntInsnNode(Opcodes.SIPUSH, 3042));
             toInject.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "org/lwjgl/opengl/GL11", "glEnable", "(I)V")); // Simply insert a glEnable call that was present in 1.6.4 but absent in 1.7.x
+            successful = true;
         }
         return toInject;
     }

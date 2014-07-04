@@ -36,6 +36,7 @@ public class XPFixPatcher extends AbstractPatcher {
                 toInject.add(new VarInsnNode(Opcodes.DLOAD, 3)); //load our constant back from vars
                 toInject.add(new InsnNode(Opcodes.DDIV)); //DIVIDE!
                 printMessage("Injected a division instruction");
+                successful = true;
                 return toInject;
             }
         }

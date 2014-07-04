@@ -33,6 +33,7 @@ public class ItemHopperBounceFixPatcher extends AbstractPatcher implements Modif
                             && temp.getPrevious().getOpcode() == Opcodes.FCONST_0
                             && temp.getPrevious().getPrevious().getOpcode() == Opcodes.FCONST_0) {
                         instructions.remove(currentInstruction);
+                        successful = true;
                     }
                 }
             }

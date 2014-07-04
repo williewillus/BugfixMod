@@ -27,6 +27,7 @@ public class ItemStairBounceFixPatcher extends AbstractPatcher implements Modifi
         if (currentInstruction instanceof MethodInsnNode && currentInstruction.getOpcode() == Opcodes.INVOKEVIRTUAL) {
             if (((MethodInsnNode)currentInstruction).name.equals(MappingRegistry.getMethodNameFor("BlockStairs.setBlockBounds"))) {
                 instructions.remove(currentInstruction);
+                successful = true;
             }
         }
     }

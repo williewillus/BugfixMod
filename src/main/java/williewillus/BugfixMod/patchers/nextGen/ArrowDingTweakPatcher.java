@@ -30,6 +30,7 @@ public class ArrowDingTweakPatcher extends AbstractPatcher implements Modificati
                     printMessage("Found entry point!");
                     instructions.insert(currentInstruction, new TypeInsnNode(Opcodes.INSTANCEOF, MappingRegistry.getClassNameFor("net/minecraft/entity/monster/IMob")));
                     instructions.remove(currentInstruction);
+                    successful = true;
                 }
             }
         }

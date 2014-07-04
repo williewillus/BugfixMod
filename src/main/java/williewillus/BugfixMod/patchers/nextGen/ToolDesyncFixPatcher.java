@@ -26,6 +26,7 @@ public class ToolDesyncFixPatcher extends AbstractPatcher {
                     MappingRegistry.getFieldNameFor("World.isRemote"),
                     "Z"));
             toInject.add(new JumpInsnNode(Opcodes.IFNE, ((JumpInsnNode) currentInstruction).label));
+            successful = true;
         }
         return toInject;
     }

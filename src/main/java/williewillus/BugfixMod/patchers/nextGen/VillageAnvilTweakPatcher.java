@@ -36,6 +36,7 @@ public class VillageAnvilTweakPatcher extends AbstractPatcher implements Modific
                 ));
                 printMessage("Replaced double stone slab with anvil.");
                 instructions.remove(currentInstruction);
+                successful = true;
             }
         }
     }

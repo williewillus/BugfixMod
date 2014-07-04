@@ -38,6 +38,7 @@ public class ChickenLureFixPatcher extends AbstractPatcher {
                     String itemName = MappingRegistry.getClassNameFor("net/minecraft/item/Item");
                     String melonName = MappingRegistry.getFieldNameFor("Items.melon_seeds");
                     String pumpkinName = MappingRegistry.getFieldNameFor("Items.pumpkin_seeds");
+                    String wartName = MappingRegistry.getFieldNameFor("Items.nether_wart");
 
                     //Melon seeds
                     toInject.add(new VarInsnNode(Opcodes.ALOAD, 0));
@@ -64,6 +65,21 @@ public class ChickenLureFixPatcher extends AbstractPatcher {
                     toInject.add(new InsnNode(Opcodes.ICONST_0));
                     toInject.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, aiTemptName, "<init>", "(L" + creatureName + ";DL" + itemName + ";Z)V"));
                     toInject.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, aiTaskName, aiTaskAdd, "(IL" + aiBaseName + ";)V"));
+
+                    //Netherwart
+                    toInject.add(new VarInsnNode(Opcodes.ALOAD, 0));
+                    toInject.add(new FieldInsnNode(Opcodes.GETFIELD, chickenName, chickenTasks, "L" + aiTaskName + ";"));
+                    toInject.add(new InsnNode(Opcodes.ICONST_3));
+                    toInject.add(new TypeInsnNode(Opcodes.NEW, aiTemptName));
+                    toInject.add(new InsnNode(Opcodes.DUP));
+                    toInject.add(new VarInsnNode(Opcodes.ALOAD, 0));
+                    toInject.add(new InsnNode(Opcodes.DCONST_1));
+                    toInject.add(new FieldInsnNode(Opcodes.GETSTATIC, initItemName, wartName, "L" + itemName + ";"));
+                    toInject.add(new InsnNode(Opcodes.ICONST_0));
+                    toInject.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, aiTemptName, "<init>", "(L" + creatureName + ";DL" + itemName + ";Z)V"));
+                    toInject.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, aiTaskName, aiTaskAdd, "(IL" + aiBaseName + ";)V"));
+
+                    successful = true;
                 }
             }
         }

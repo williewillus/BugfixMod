@@ -37,6 +37,7 @@ public class ArrowFixPatcher extends AbstractPatcher {
                 toInject.add(new FieldInsnNode(Opcodes.PUTFIELD, entityArrowName, MappingRegistry.getFieldNameFor("EntityArrow.field_145790_g"), "L" + MappingRegistry.getClassNameFor("net/minecraft/block/Block") + ";"));
                 //Get block at the arrow's coordinates and assign it to field_145790_g, overriding the incorrect assignment just before insertion.
                 printMessage("Injected new field assignment!");
+                successful = true;
             }
         }
         return toInject;

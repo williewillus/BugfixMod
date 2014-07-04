@@ -32,6 +32,7 @@ public class HeartFlashFixPatcher extends AbstractPatcher {
                     MappingRegistry.getClassNameFor("net/minecraft/client/entity/EntityClientPlayerMP"),
                     MappingRegistry.getFieldNameFor("EntityClientPlayerMP.prevHealth"),
                     "F"));
+            successful = true;
         }
         return toInject;
     }

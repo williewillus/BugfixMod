@@ -18,6 +18,7 @@ public abstract class AbstractPatcher {
     protected String targetMethodName;
     protected String targetMethodDesc;
     protected String targetFieldName;
+    protected boolean successful;
 
     public AbstractPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
         this.patcherName = name;
@@ -53,7 +54,7 @@ public abstract class AbstractPatcher {
             }
             ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
             classNode.accept(writer);
-            printMessage("Applied transform!");
+            printMessage(successful ? "Applied transform!" : "Failed to apply transform!");
             return writer.toByteArray();
         } else {
             return bytes;
