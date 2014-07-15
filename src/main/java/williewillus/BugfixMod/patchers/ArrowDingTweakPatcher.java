@@ -1,4 +1,4 @@
-package williewillus.BugfixMod.patchers.nextGen;
+package williewillus.BugfixMod.patchers;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -13,8 +13,8 @@ import java.util.Iterator;
  */
 public class ArrowDingTweakPatcher extends AbstractPatcher implements ModificationPatcher {
 
-    public ArrowDingTweakPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
-        super(name, targetClassName, targetMethodName, targetMethodDesc, targetFieldName);
+    public ArrowDingTweakPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc) {
+        super(name, targetClassName, targetMethodName, targetMethodDesc);
     }
 
     @Override
@@ -25,10 +25,13 @@ public class ArrowDingTweakPatcher extends AbstractPatcher implements Modificati
     @Override
     public void modifyInsns(AbstractInsnNode currentInstruction, Iterator<AbstractInsnNode> instructionSet, InsnList instructions) {
         if (currentInstruction instanceof TypeInsnNode && currentInstruction.getOpcode() == Opcodes.INSTANCEOF) {
-            if (((TypeInsnNode) currentInstruction).desc.equals(MappingRegistry.getClassNameFor("net/minecraft/entity/player/EntityPlayer"))) {
+            String playerClassName = MappingRegistry.getClassNameFor("net/minecraft/entity/player/EntityPlayer");
+            String imobClassName = MappingRegistry.getClassNameFor("net/minecraft/entity/monster/IMob");
+
+            if (((TypeInsnNode) currentInstruction).desc.equals(playerClassName)) {
                 if (currentInstruction.getPrevious().getPrevious().getPrevious().getOpcode() == Opcodes.IF_ACMPEQ) {
                     printMessage("Found entry point!");
-                    instructions.insert(currentInstruction, new TypeInsnNode(Opcodes.INSTANCEOF, MappingRegistry.getClassNameFor("net/minecraft/entity/monster/IMob")));
+                    instructions.insert(currentInstruction, new TypeInsnNode(Opcodes.INSTANCEOF, imobClassName));
                     instructions.remove(currentInstruction);
                     successful = true;
                 }

@@ -1,4 +1,4 @@
-package williewillus.BugfixMod.patchers.nextGen;
+package williewillus.BugfixMod.patchers;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
@@ -11,8 +11,8 @@ import java.util.Iterator;
  */
 public class HeartFlashFixPatcher extends AbstractPatcher {
 
-    public HeartFlashFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
-        super(name, targetClassName, targetMethodName, targetMethodDesc, targetFieldName);
+    public HeartFlashFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc) {
+        super(name, targetClassName, targetMethodName, targetMethodDesc);
     }
 
     @Override
@@ -20,17 +20,21 @@ public class HeartFlashFixPatcher extends AbstractPatcher {
         InsnList toInject = new InsnList();
         if (currentInstruction.getOpcode() == Opcodes.ICONST_0) {
             printMessage("Found entry point");
+            String ecpmpClassName = MappingRegistry.getClassNameFor("net/minecraft/client/entity/EntityClientPlayerMP");
+            String getHealthMethodName = MappingRegistry.getMethodNameFor("EntityClientPlayerMP.getHealth");
+            String prevHealthFieldName = MappingRegistry.getFieldNameFor("EntityClientPlayerMP.prevHealth");
+
             toInject.add(new VarInsnNode(Opcodes.ALOAD, 0));
             toInject.add(new VarInsnNode(Opcodes.ALOAD, 0));
             toInject.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,
-                    MappingRegistry.getClassNameFor("net/minecraft/client/entity/EntityClientPlayerMP"),
-                    MappingRegistry.getMethodNameFor("EntityClientPlayerMP.getHealth"),
+                    ecpmpClassName,
+                    getHealthMethodName,
                     "()F"));
             toInject.add(new VarInsnNode(Opcodes.FLOAD, 2));
             toInject.add(new InsnNode(Opcodes.FADD));
             toInject.add(new FieldInsnNode(Opcodes.PUTFIELD,
-                    MappingRegistry.getClassNameFor("net/minecraft/client/entity/EntityClientPlayerMP"),
-                    MappingRegistry.getFieldNameFor("EntityClientPlayerMP.prevHealth"),
+                    ecpmpClassName,
+                    prevHealthFieldName,
                     "F"));
             successful = true;
         }

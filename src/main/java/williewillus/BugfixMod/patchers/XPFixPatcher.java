@@ -1,4 +1,4 @@
-package williewillus.BugfixMod.patchers.nextGen;
+package williewillus.BugfixMod.patchers;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
@@ -10,8 +10,8 @@ import java.util.Iterator;
  */
 public class XPFixPatcher extends AbstractPatcher {
 
-    public XPFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
-        super(name, targetClassName, targetMethodName, targetMethodDesc, targetFieldName);
+    public XPFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc) {
+        super(name, targetClassName, targetMethodName, targetMethodDesc);
     }
 
     @Override

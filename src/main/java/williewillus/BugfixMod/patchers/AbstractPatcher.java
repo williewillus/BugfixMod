@@ -1,4 +1,4 @@
-package williewillus.BugfixMod.patchers.nextGen;
+package williewillus.BugfixMod.patchers;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
@@ -6,6 +6,7 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodNode;
+import williewillus.BugfixMod.BugfixModClassTransformer;
 
 import java.util.Iterator;
 
@@ -17,15 +18,13 @@ public abstract class AbstractPatcher {
     protected String targetClassName;
     protected String targetMethodName;
     protected String targetMethodDesc;
-    protected String targetFieldName;
     protected boolean successful;
 
-    public AbstractPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
+    public AbstractPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc) {
         this.patcherName = name;
         this.targetClassName = targetClassName;
         this.targetMethodName = targetMethodName;
         this.targetMethodDesc = targetMethodDesc;
-        this.targetFieldName = targetFieldName;
     }
 
     public byte[] patch(byte[] bytes) {
@@ -34,19 +33,23 @@ public abstract class AbstractPatcher {
         classReader.accept(classNode, 0);
 
         if (classNode.name.equals(targetClassName)) {
-            for (MethodNode m : classNode.methods) {
-                if (m.name.equals(targetMethodName) && m.desc.equals(targetMethodDesc)) {
-                    printMessage("Found target method");
-                    AbstractInsnNode currentInstruction;
-                    Iterator<AbstractInsnNode> instructionSet = m.instructions.iterator();
-                    while (instructionSet.hasNext()) {
-                        currentInstruction = instructionSet.next();
-                        if (this instanceof ModificationPatcher) {
-                            ((ModificationPatcher) this).modifyInsns(currentInstruction, instructionSet, m.instructions);
-                        } else {
-                            InsnList toInject = buildNewInsns(currentInstruction, instructionSet);
-                            if (toInject.size() > 0) {
-                                m.instructions.insert(currentInstruction, toInject);
+            if (this instanceof ClassPatcher) {
+                ((ClassPatcher) this).changeClass(classNode);
+            } else {
+                for (MethodNode method : classNode.methods) {
+                    if (method.name.equals(targetMethodName) && method.desc.equals(targetMethodDesc)) {
+                        printMessage("Found target method");
+                        AbstractInsnNode currentInstruction;
+                        Iterator<AbstractInsnNode> instructionSet = method.instructions.iterator();
+                        while (instructionSet.hasNext()) {
+                            currentInstruction = instructionSet.next();
+                            if (this instanceof ModificationPatcher) {
+                                ((ModificationPatcher) this).modifyInsns(currentInstruction, instructionSet, method.instructions);
+                            } else {
+                                InsnList toInject = buildNewInsns(currentInstruction, instructionSet);
+                                if (toInject.size() > 0) {
+                                    method.instructions.insert(currentInstruction, toInject);
+                                }
                             }
                         }
                     }
@@ -64,6 +67,6 @@ public abstract class AbstractPatcher {
     public abstract InsnList buildNewInsns(AbstractInsnNode currentInstruction, Iterator<AbstractInsnNode> instructionSet);
 
     public void printMessage(String message) {
-        System.out.println("[" + patcherName + "] " + message);
+        BugfixModClassTransformer.instance.logger.info("[" + patcherName + "] " + message);
     }
 }

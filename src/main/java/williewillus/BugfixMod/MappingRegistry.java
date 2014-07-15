@@ -25,87 +25,138 @@ public class MappingRegistry {
                 //fieldMap.put("EntityArrow.field_145790_g", "g");
 				// ArrowFix's bug has been FIXED by Mojang as of Minecraft 1.7.6. YAY!
                 // methodMap.put("World.getBlock", "a");
+                BugFixModSettings settings = BugfixModClassTransformer.instance.settings;
 
-                // ArrowDingTweak
-                classMap.put("net/minecraft/entity/projectile/EntityArrow", "zc");
-                methodMap.put("EntityArrow.onUpdate", "h");
-                classMap.put("net/minecraft/entity/monster/IMob", "yb");
+                if (settings.ArrowDingTweakEnabled) {
+                    classMap.put("net/minecraft/entity/projectile/EntityArrow", "zc");
+                    methodMap.put("EntityArrow.onUpdate", "h");
+                    classMap.put("net/minecraft/entity/player/EntityPlayer", "yz");
+                    classMap.put("net/minecraft/entity/monster/IMob", "yb");
+                }
 
-                // ChatOpacityFix
-                classMap.put("net/minecraft/client/gui/GuiNewChat", "bcc");
-                methodMap.put("GuiNewChat.drawChat", "a");
 
-                // ChickenLureFix
-                classMap.put("net/minecraft/entity/passive/EntityChicken", "wg");
-                fieldMap.put("EntityChicken.tasks", "c");
+                if (settings.ChatOpacityFixEnabled) {
+                    classMap.put("net/minecraft/client/gui/GuiNewChat", "bcc");
+                    methodMap.put("GuiNewChat.drawChat", "a");
+                }
 
-                classMap.put("net/minecraft/entity/ai/EntityAIBase", "ui");
-                classMap.put("net/minecraft/entity/ai/EntityAITempt", "vk");
 
-                classMap.put("net/minecraft/entity/ai/EntityAITasks", "uj");
-                methodMap.put("EntityAITasks.addTask", "a");
+                if (settings.ChickenLureFixEnabled) {
+                    classMap.put("net/minecraft/entity/passive/EntityChicken", "wg");
+                    fieldMap.put("EntityChicken.tasks", "c");
 
-                classMap.put("net/minecraft/item/Item", "adb");
+                    classMap.put("net/minecraft/world/World", "ahb");
+                    classMap.put("net/minecraft/entity/ai/EntityAIBase", "ui");
+                    classMap.put("net/minecraft/entity/ai/EntityAITempt", "vk");
 
-                classMap.put("net/minecraft/init/Items", "ade");
-                fieldMap.put("Items.pumpkin_seeds", "bb");
-                fieldMap.put("Items.melon_seeds", "bc");
-                fieldMap.put("Items.nether_wart", "bm");
+                    classMap.put("net/minecraft/entity/ai/EntityAITasks", "uj");
+                    methodMap.put("EntityAITasks.addTask", "a");
 
-                classMap.put("net/minecraft/entity/EntityCreature", "td");
+                    classMap.put("net/minecraft/item/Item", "adb");
 
-                // HeartFlashFix
-                classMap.put("net/minecraft/client/entity/EntityClientPlayerMP", "bjk");
-                fieldMap.put("EntityClientPlayerMP.prevHealth", "aw");
-                methodMap.put("EntityClientPlayerMP.getHealth", "aS");
-                methodMap.put("EntityClientPlayerMP.attackEntityFrom", "a");
+                    classMap.put("net/minecraft/init/Items", "ade");
+                    fieldMap.put("Items.pumpkin_seeds", "bb");
+                    fieldMap.put("Items.melon_seeds", "bc");
+                    fieldMap.put("Items.nether_wart", "bm");
 
-                classMap.put("net/minecraft/util/DamageSource", "ro");
+                    classMap.put("net/minecraft/entity/EntityCreature", "td");
+                }
 
-                // ItemHopperBounceFix
-                classMap.put("net/minecraft/block/BlockHopper", "aln");
 
-                methodMap.put("BlockHopper.addCollisionBoxesToList", "a");
-                methodMap.put("BlockHopper.setBlockBounds", "a");
+                if (settings.HeartBlinkFixEnabled) {
+                    classMap.put("net/minecraft/client/entity/EntityClientPlayerMP", "bjk");
+                    fieldMap.put("EntityClientPlayerMP.hurtResistantTime", "");
+                    methodMap.put("EntityClientPlayerMP.onUpdate", "");
+                    methodMap.put("EntityClientPlayerMP.getHealth", "aS");
 
-                // ItemStairBounceFix
-                classMap.put("net/minecraft/block/BlockStairs", "ans");
-                classMap.put("net/minecraft/util/AxisAlignedBB", "azt");
-                classMap.put("net/minecraft/entity/Entity", "sa");
+                    classMap.put("net/minecraft/client/network/NetHandlerPlayClient", "bjb");
+                    methodMap.put("NetHandlerPlayClient.handleEntityMetadata", "");
 
-                methodMap.put("BlockStairs.addCollisionBoxesToList", "a");
-                methodMap.put("BlockStairs.setBlockBounds", "a");
+                    classMap.put("net/minecraft/network/play/server/S1CPacketEntityMetadata", "");
+                    methodMap.put("S1CPacketEntityMetadata.func_149376_c", "");
 
-                // SnowballFix
-                classMap.put("net/minecraft/entity/player/EntityPlayer", "yz");
-                methodMap.put("EntityPlayer.attackEntityFrom", "a");
+                    classMap.put("net/minecraft/client/gui/GuiIngame", "");
+                    fieldMap.put("GuiIngame.mc", "");
+                    methodMap.put("GuiIngame.func_110327_a", "a");
 
-                // ToolDesyncFix
-                classMap.put("net/minecraft/item/ItemTool", "acg");
-                methodMap.put("ItemTool.onBlockDestroyed", "a");
+                    classMap.put("net/minecraft/client/Minecraft", "");
+                    fieldMap.put("Minecraft.thePlayer", "");
 
-                classMap.put("net/minecraft/item/ItemStack", "add");
-                classMap.put("net/minecraft/entity/EntityLivingBase", "sv");
-                classMap.put("net/minecraft/world/World", "ahb");
+                    classMap.put("net/minecraft/entity/DataWatcher$WatchableObject", "");
+                    methodMap.put("DataWatcher$WatchableObject.getObjectType", "");
 
-                fieldMap.put("World.isRemote", "E");
 
-                // VillageAnvilTweak
-                classMap.put("net/minecraft/world/gen/structure/StructureVillagePieces$House2", "avz");
-                methodMap.put("StructureVillagePieces$House2.addComponentParts", "a");
+                }
 
-                classMap.put("net/minecraft/world/gen/structure/StructureBoundingBox", "asv");
+                if (settings.HeartFlashFixEnabled) {
+                    classMap.put("net/minecraft/client/entity/EntityClientPlayerMP", "bjk");
+                    fieldMap.put("EntityClientPlayerMP.prevHealth", "aw");
+                    methodMap.put("EntityClientPlayerMP.getHealth", "aS");
+                    methodMap.put("EntityClientPlayerMP.attackEntityFrom", "a");
 
-                classMap.put("net/minecraft/init/Blocks", "ajn");
-                classMap.put("net/minecraft/block/Block", "aji");
-                fieldMap.put("Blocks.anvil", "bQ");
-                fieldMap.put("Blocks.double_stone_slab", "T");
+                    classMap.put("net/minecraft/util/DamageSource", "ro");
+                }
 
-                // XPFix
-                classMap.put("net/minecraft/client/network/NetHandlerPlayClient", "bjb");
-                methodMap.put("NetHandlerPlayClient.handleSpawnExperienceOrb", "a");
+                if (settings.ItemHopperBounceFixEnabled) {
+                    classMap.put("net/minecraft/block/BlockHopper", "aln");
+                    methodMap.put("BlockHopper.addCollisionBoxesToList", "a");
+                    methodMap.put("BlockHopper.setBlockBounds", "a");
 
-                classMap.put("net/minecraft/network/play/server/S11PacketSpawnExperienceOrb", "fx");
+                    classMap.put("net/minecraft/world/World", "ahb");
+                    classMap.put("net/minecraft/util/AxisAlignedBB", "azt");
+                    classMap.put("net/minecraft/entity/Entity", "sa");
+                }
+
+                if (settings.ItemStairBounceFixEnabled) {
+                    classMap.put("net/minecraft/block/BlockStairs", "ans");
+                    methodMap.put("BlockStairs.addCollisionBoxesToList", "a");
+                    methodMap.put("BlockStairs.setBlockBounds", "a");
+
+                    classMap.put("net/minecraft/world/World", "ahb");
+                    classMap.put("net/minecraft/util/AxisAlignedBB", "azt");
+                    classMap.put("net/minecraft/entity/Entity", "sa");
+
+                }
+
+                if (settings.SnowballFixEnabled) {
+                    classMap.put("net/minecraft/entity/player/EntityPlayer", "yz");
+                    methodMap.put("EntityPlayer.attackEntityFrom", "a");
+
+                    classMap.put("net/minecraft/util/DamageSource", "ro");
+                }
+
+                if (settings.ToolDesyncFixEnabled) {
+                    classMap.put("net/minecraft/item/ItemTool", "acg");
+                    methodMap.put("ItemTool.onBlockDestroyed", "a");
+
+                    classMap.put("net/minecraft/item/ItemStack", "add");
+                    classMap.put("net/minecraft/entity/EntityLivingBase", "sv");
+                    classMap.put("net/minecraft/block/Block", "aji");
+
+                    classMap.put("net/minecraft/world/World", "ahb");
+                    fieldMap.put("World.isRemote", "E");
+                }
+
+                if (settings.VillageAnvilTweakEnabled) {
+                    classMap.put("net/minecraft/world/World", "ahb");
+
+                    classMap.put("net/minecraft/world/gen/structure/StructureVillagePieces$House2", "avz");
+                    methodMap.put("StructureVillagePieces$House2.addComponentParts", "a");
+
+                    classMap.put("net/minecraft/world/gen/structure/StructureBoundingBox", "asv");
+
+                    classMap.put("net/minecraft/block/Block", "aji");
+                    classMap.put("net/minecraft/init/Blocks", "ajn");
+                    fieldMap.put("Blocks.anvil", "bQ");
+                    fieldMap.put("Blocks.double_stone_slab", "T");
+                }
+
+                if (settings.XPFixEnabled) {
+                    classMap.put("net/minecraft/client/network/NetHandlerPlayClient", "bjb");
+                    methodMap.put("NetHandlerPlayClient.handleSpawnExperienceOrb", "a");
+
+                    classMap.put("net/minecraft/network/play/server/S11PacketSpawnExperienceOrb", "fx");
+                }
 
             }
             hasInit = true;

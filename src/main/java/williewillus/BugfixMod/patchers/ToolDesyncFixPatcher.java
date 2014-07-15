@@ -1,4 +1,4 @@
-package williewillus.BugfixMod.patchers.nextGen;
+package williewillus.BugfixMod.patchers;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
@@ -11,8 +11,8 @@ import java.util.Iterator;
  */
 public class ToolDesyncFixPatcher extends AbstractPatcher {
 
-    public ToolDesyncFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
-        super(name, targetClassName, targetMethodName, targetMethodDesc, targetFieldName);
+    public ToolDesyncFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc) {
+        super(name, targetClassName, targetMethodName, targetMethodDesc);
     }
 
     @Override
@@ -20,10 +20,13 @@ public class ToolDesyncFixPatcher extends AbstractPatcher {
         InsnList toInject = new InsnList();
         if (currentInstruction.getOpcode() == Opcodes.IFEQ && currentInstruction.getPrevious().getOpcode() == Opcodes.DCMPL) {
             printMessage("Found entry point.");
+            String worldClassName = MappingRegistry.getClassNameFor("net/minecraft/world/World");
+            String remoteFieldName = MappingRegistry.getFieldNameFor("World.isRemote");
+
             toInject.add(new VarInsnNode(Opcodes.ALOAD, 2));
             toInject.add(new FieldInsnNode(Opcodes.GETFIELD,
-                    MappingRegistry.getClassNameFor("net/minecraft/world/World"),
-                    MappingRegistry.getFieldNameFor("World.isRemote"),
+                    worldClassName,
+                    remoteFieldName,
                     "Z"));
             toInject.add(new JumpInsnNode(Opcodes.IFNE, ((JumpInsnNode) currentInstruction).label));
             successful = true;

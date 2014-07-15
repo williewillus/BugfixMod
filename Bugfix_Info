@@ -1,0 +1,49 @@
+This document will just document the methods of every bugfix I have included so far.
+
+ArrowFix
+- A field was set incorrectly in EntityArrow's onUpdate() method, leading to the algorithm that determines whether the arrow should impact a block to break'
+- As such, the arrow believed it was in a different block than it actually was, causing dupe and transmutation glitches.
+- This is fixed by changing the field assignment back to what it was in 1.6.4.
+- This bug was also fixed by Mojang in 1.7.6
+
+ArrowDingTweak
+- I wanted to know whether I had hit a mob from far away, so I took EntityArrow's onUpdate() once more and changed the "ding" check to include IMob implementations as well as players.
+
+ChatOpacityFix
+- Since 1.7.x, chat opacity slider controlled only the gray background opacity and not the actual words.
+- This adds a GL11.glEnable(GL11.GL_BLEND) that was present in 1.6.4
+- This fix has been pulled into MinecraftForge 1181+
+
+ChickenLureFix
+- There was an inconsistency: chickens could breed with all subclasses of ItemSeeds
+- This added AI tasks that made chickens attracted to all items they can breed with, not just seeds.
+
+HeartFlashFix
+- Since 1.0.0 SMP and 1.3.1 SSP, the hearts no longer flashed the "delta" health, or damage taken.
+- In the past, if one were at 10 hearts and dropped to 5, the 5 lost hearts would flash white to indicate their loss.
+- This readds that functionality which was inadvertently removed due to the clientside value the renderer depended on no longer being updated properly.
+
+HeartBlinkFix
+
+
+
+ItemHopperBounceFix
+- Items no longer bounce around on locked hoppers
+
+ItemStairBounceFix
+- Items no longer bounce around on stairs.
+- Super annoying bug for me but some like it, so it is disabled by default
+
+SnowballFix
+- All projectiles that deal 0 damage knock back players again.
+
+ToolDesyncFix
+- Tools are only damaged on the server side so discrepancies in calculating the Unbreaking enchantment do not cause reappearing tools
+
+VillageAnvilTweak
+- Blacksmith houses generate with an anvil where there was a double stone slab (which was supposed to be an "anvil" anyway).
+
+XPFix
+- XP Orbs were being spawned on the clientside 32x their true coordinates, leading them to be invisible for several seconds after spawning
+- This restores proper functionality, last shown in Minecraft 1.4.7.
+- This fix has been pulled into MinecraftForge 1182+

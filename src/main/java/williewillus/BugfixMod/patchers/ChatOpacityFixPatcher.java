@@ -1,4 +1,4 @@
-package williewillus.BugfixMod.patchers.nextGen;
+package williewillus.BugfixMod.patchers;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -13,8 +13,8 @@ import java.util.Iterator;
  */
 public class ChatOpacityFixPatcher extends AbstractPatcher {
 
-    public ChatOpacityFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
-        super(name, targetClassName, targetMethodName, targetMethodDesc, targetFieldName);
+    public ChatOpacityFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc) {
+        super(name, targetClassName, targetMethodName, targetMethodDesc);
     }
 
     @Override
@@ -22,7 +22,6 @@ public class ChatOpacityFixPatcher extends AbstractPatcher {
         InsnList toInject = new InsnList();
         if (currentInstruction.getOpcode() == Opcodes.INVOKESTATIC && currentInstruction.getPrevious().getOpcode() == Opcodes.ISHL && currentInstruction.getPrevious().getPrevious().getOpcode() == Opcodes.BIPUSH) {
             printMessage("Entry point found");
-            AbstractInsnNode entryPoint = currentInstruction.getNext().getNext();
             toInject.add(new IntInsnNode(Opcodes.SIPUSH, 3042));
             toInject.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "org/lwjgl/opengl/GL11", "glEnable", "(I)V")); // Simply insert a glEnable call that was present in 1.6.4 but absent in 1.7.x
             successful = true;

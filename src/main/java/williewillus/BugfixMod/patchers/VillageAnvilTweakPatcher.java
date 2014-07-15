@@ -1,4 +1,4 @@
-package williewillus.BugfixMod.patchers.nextGen;
+package williewillus.BugfixMod.patchers;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -13,8 +13,8 @@ import java.util.Iterator;
  */
 public class VillageAnvilTweakPatcher extends AbstractPatcher implements ModificationPatcher {
 
-    public VillageAnvilTweakPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
-        super(name, targetClassName, targetMethodName, targetMethodDesc, targetFieldName);
+    public VillageAnvilTweakPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc) {
+        super(name, targetClassName, targetMethodName, targetMethodDesc);
     }
 
     @Override
@@ -27,12 +27,18 @@ public class VillageAnvilTweakPatcher extends AbstractPatcher implements Modific
     public void modifyInsns(AbstractInsnNode currentInstruction, Iterator<AbstractInsnNode> instructionSet, InsnList instructions) {
         if (currentInstruction instanceof FieldInsnNode) {
             FieldInsnNode f = (FieldInsnNode) currentInstruction;
-            if (f.name.equals(targetFieldName)) {
+            String doubleSlabFieldName = MappingRegistry.getFieldNameFor("Blocks.double_stone_slab");
+
+            if (f.name.equals(doubleSlabFieldName)) {
                 printMessage("Found entry point: " + f.owner + " " + f.name + " " + f.desc);
+                String blocksClassName = MappingRegistry.getClassNameFor("net/minecraft/init/Blocks");
+                String anvilFieldName = MappingRegistry.getFieldNameFor("Blocks.anvil");
+                String blockClassName = MappingRegistry.getClassNameFor("net/minecraft/block/Block");
+
                 instructions.insert(currentInstruction, new FieldInsnNode(Opcodes.GETSTATIC,
-                        MappingRegistry.getClassNameFor("net/minecraft/init/Blocks"),
-                        MappingRegistry.getFieldNameFor("Blocks.anvil"),
-                        "L" + MappingRegistry.getClassNameFor("net/minecraft/block/Block") + ";"
+                        blocksClassName,
+                        anvilFieldName,
+                        "L" + blockClassName + ";"
                 ));
                 printMessage("Replaced double stone slab with anvil.");
                 instructions.remove(currentInstruction);

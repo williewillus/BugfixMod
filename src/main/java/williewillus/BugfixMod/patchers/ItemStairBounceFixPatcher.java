@@ -1,4 +1,4 @@
-package williewillus.BugfixMod.patchers.nextGen;
+package williewillus.BugfixMod.patchers;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -13,8 +13,8 @@ import java.util.Iterator;
  */
 public class ItemStairBounceFixPatcher extends AbstractPatcher implements ModificationPatcher {
 
-    public ItemStairBounceFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
-        super(name, targetClassName, targetMethodName, targetMethodDesc, targetFieldName);
+    public ItemStairBounceFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc) {
+        super(name, targetClassName, targetMethodName, targetMethodDesc);
     }
 
     @Override
@@ -25,7 +25,8 @@ public class ItemStairBounceFixPatcher extends AbstractPatcher implements Modifi
     @Override
     public void modifyInsns(AbstractInsnNode currentInstruction, Iterator<AbstractInsnNode> instructionSet, InsnList instructions) {
         if (currentInstruction instanceof MethodInsnNode && currentInstruction.getOpcode() == Opcodes.INVOKEVIRTUAL) {
-            if (((MethodInsnNode)currentInstruction).name.equals(MappingRegistry.getMethodNameFor("BlockStairs.setBlockBounds"))) {
+            String sbbMethodName = MappingRegistry.getMethodNameFor("BlockStairs.setBlockBounds");
+            if (((MethodInsnNode)currentInstruction).name.equals(sbbMethodName)) {
                 instructions.remove(currentInstruction);
                 successful = true;
             }

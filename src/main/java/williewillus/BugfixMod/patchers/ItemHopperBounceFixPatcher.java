@@ -1,4 +1,4 @@
-package williewillus.BugfixMod.patchers.nextGen;
+package williewillus.BugfixMod.patchers;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -12,8 +12,8 @@ import java.util.Iterator;
  * Created by Vincent on 6/12/2014.
  */
 public class ItemHopperBounceFixPatcher extends AbstractPatcher implements ModificationPatcher {
-    public ItemHopperBounceFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
-        super(name, targetClassName, targetMethodName, targetMethodDesc, targetFieldName);
+    public ItemHopperBounceFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc) {
+        super(name, targetClassName, targetMethodName, targetMethodDesc);
     }
 
     @Override
@@ -24,7 +24,9 @@ public class ItemHopperBounceFixPatcher extends AbstractPatcher implements Modif
     @Override
     public void modifyInsns(AbstractInsnNode currentInstruction, Iterator<AbstractInsnNode> instructionSet, InsnList instructions) {
         if (currentInstruction instanceof MethodInsnNode && currentInstruction.getOpcode() == Opcodes.INVOKEVIRTUAL) {
-            if (((MethodInsnNode) currentInstruction).name.equals(MappingRegistry.getMethodNameFor("BlockHopper.setBlockBounds"))) {
+            String sbbMethodName = MappingRegistry.getMethodNameFor("BlockHopper.setBlockBounds");
+
+            if (((MethodInsnNode) currentInstruction).name.equals(sbbMethodName)) {
                 if (currentInstruction.getPrevious().getOpcode() == Opcodes.FCONST_1           // Much tedium, very dirty
                         && currentInstruction.getPrevious().getPrevious().getOpcode() == Opcodes.FCONST_1
                         && currentInstruction.getPrevious().getPrevious().getPrevious().getOpcode() == Opcodes.FCONST_1) {

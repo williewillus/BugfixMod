@@ -1,25 +1,25 @@
-package williewillus.BugfixMod.patchers.nextGen;
+package williewillus.BugfixMod.patchers;
 
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.*;
-import williewillus.BugfixMod.MappingRegistry;
+import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.InsnList;
 
 import java.util.Iterator;
 
 /**
  * Created by Vincent on 6/6/2014.
  */
+@Deprecated
 public class ArrowFixPatcher extends AbstractPatcher {
 
 
-    public ArrowFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc, String targetFieldName) {
-        super(name, targetClassName, targetMethodName, targetMethodDesc, targetFieldName);
+    public ArrowFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc) {
+        super(name, targetClassName, targetMethodName, targetMethodDesc);
     }
 
     @Override
     public InsnList buildNewInsns(AbstractInsnNode currentInstruction, Iterator<AbstractInsnNode> instructionSet) {
         InsnList toInject = new InsnList();
-        if (currentInstruction instanceof FieldInsnNode) {
+        /*if (currentInstruction instanceof FieldInsnNode) {
             if (((FieldInsnNode) currentInstruction).name.equals(targetFieldName) && currentInstruction.getOpcode() == Opcodes.PUTFIELD) {
                 printMessage("Found entry point!");
                 String entityArrowName = MappingRegistry.getClassNameFor("net/minecraft/entity/projectile/EntityArrow");
@@ -39,7 +39,7 @@ public class ArrowFixPatcher extends AbstractPatcher {
                 printMessage("Injected new field assignment!");
                 successful = true;
             }
-        }
+        }*/
         return toInject;
     }
 }
