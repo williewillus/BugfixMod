@@ -33,23 +33,19 @@ public abstract class AbstractPatcher {
         classReader.accept(classNode, 0);
 
         if (classNode.name.equals(targetClassName)) {
-            if (this instanceof ClassPatcher) {
-                ((ClassPatcher) this).changeClass(classNode);
-            } else {
-                for (MethodNode method : classNode.methods) {
-                    if (method.name.equals(targetMethodName) && method.desc.equals(targetMethodDesc)) {
-                        printMessage("Found target method");
-                        AbstractInsnNode currentInstruction;
-                        Iterator<AbstractInsnNode> instructionSet = method.instructions.iterator();
-                        while (instructionSet.hasNext()) {
-                            currentInstruction = instructionSet.next();
-                            if (this instanceof ModificationPatcher) {
-                                ((ModificationPatcher) this).modifyInsns(currentInstruction, instructionSet, method.instructions);
-                            } else {
-                                InsnList toInject = buildNewInsns(currentInstruction, instructionSet);
-                                if (toInject.size() > 0) {
-                                    method.instructions.insert(currentInstruction, toInject);
-                                }
+            for (MethodNode method : classNode.methods) {
+                if (method.name.equals(targetMethodName) && method.desc.equals(targetMethodDesc)) {
+                    printMessage("Found target method");
+                    AbstractInsnNode currentInstruction;
+                    Iterator<AbstractInsnNode> instructionSet = method.instructions.iterator();
+                    while (instructionSet.hasNext()) {
+                        currentInstruction = instructionSet.next();
+                        if (this instanceof ModificationPatcher) {
+                            ((ModificationPatcher) this).modifyInsns(currentInstruction, instructionSet, method.instructions);
+                        } else {
+                            InsnList toInject = buildNewInsns(currentInstruction, instructionSet);
+                            if (toInject.size() > 0) {
+                                method.instructions.insert(currentInstruction, toInject);
                             }
                         }
                     }

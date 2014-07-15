@@ -64,28 +64,8 @@ public class MappingRegistry {
 
 
                 if (settings.HeartBlinkFixEnabled) {
-                    classMap.put("net/minecraft/client/entity/EntityClientPlayerMP", "bjk");
-                    fieldMap.put("EntityClientPlayerMP.hurtResistantTime", "");
-                    methodMap.put("EntityClientPlayerMP.onUpdate", "");
-                    methodMap.put("EntityClientPlayerMP.getHealth", "aS");
-
-                    classMap.put("net/minecraft/client/network/NetHandlerPlayClient", "bjb");
-                    methodMap.put("NetHandlerPlayClient.handleEntityMetadata", "");
-
-                    classMap.put("net/minecraft/network/play/server/S1CPacketEntityMetadata", "");
-                    methodMap.put("S1CPacketEntityMetadata.func_149376_c", "");
-
-                    classMap.put("net/minecraft/client/gui/GuiIngame", "");
-                    fieldMap.put("GuiIngame.mc", "");
-                    methodMap.put("GuiIngame.func_110327_a", "a");
-
-                    classMap.put("net/minecraft/client/Minecraft", "");
-                    fieldMap.put("Minecraft.thePlayer", "");
-
-                    classMap.put("net/minecraft/entity/DataWatcher$WatchableObject", "");
-                    methodMap.put("DataWatcher$WatchableObject.getObjectType", "");
-
-
+                    classMap.put("net/minecraft/client/entity/EntityPlayerSP", "blk");
+                    methodMap.put("EntityPlayerSP.setPlayerSPHealth", "n");
                 }
 
                 if (settings.HeartFlashFixEnabled) {
@@ -93,6 +73,7 @@ public class MappingRegistry {
                     fieldMap.put("EntityClientPlayerMP.prevHealth", "aw");
                     methodMap.put("EntityClientPlayerMP.getHealth", "aS");
                     methodMap.put("EntityClientPlayerMP.attackEntityFrom", "a");
+                    methodMap.put("EntityClientPlayerMP.setPlayerSPHealth", "n");
 
                     classMap.put("net/minecraft/util/DamageSource", "ro");
                 }

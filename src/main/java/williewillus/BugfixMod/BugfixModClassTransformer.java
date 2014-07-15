@@ -51,8 +51,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
             settings.VillageAnvilTweakEnabled = config.get("TWEAKS", "VillageAnvilTweakEnabled", false).getBoolean(false);
 
             settings.ChatOpacityFixEnabled = config.get("CLIENT", "ChatOpacityFixEnabled", true).getBoolean(true);
-            //settings.HeartBlinkFixEnabled = config.get("CLIENT", "HeartBlinkFixEnabled", true).getBoolean(true);
-            settings.HeartBlinkFixEnabled = false;
+            settings.HeartBlinkFixEnabled = config.get("CLIENT", "HeartBlinkFixEnabled", true).getBoolean(true);
             settings.HeartFlashFixEnabled = config.get("CLIENT", "HeartFlashFixEnabled", true).getBoolean(true);
             settings.ToolDesyncFixEnabled = config.get("CLIENT", "ToolDesyncFixEnabled", false).getBoolean(false);
             settings.XPFixEnabled = config.get("CLIENT", "XPFixEnabled", true).getBoolean(true);
@@ -131,7 +130,12 @@ public class BugfixModClassTransformer implements IClassTransformer {
             }
 
             if (settings.HeartBlinkFixEnabled) {
-
+                patchers.add(new HeartBlinkFixPatcher(
+                    "HeartBlinkFix",
+                    MappingRegistry.getClassNameFor("net/minecraft/client/entity/EntityPlayerSP"),
+                    MappingRegistry.getMethodNameFor("EntityPlayerSP.setPlayerSPHealth"),
+                    "(F)V"
+                ));
             }
 
             if (settings.HeartFlashFixEnabled) {
@@ -140,6 +144,13 @@ public class BugfixModClassTransformer implements IClassTransformer {
                         MappingRegistry.getClassNameFor("net/minecraft/client/entity/EntityClientPlayerMP"),
                         MappingRegistry.getMethodNameFor("EntityClientPlayerMP.attackEntityFrom"),
                         "(L" + MappingRegistry.getClassNameFor("net/minecraft/util/DamageSource") + ";F)Z"
+                ));
+
+                patchers.add(new HeartFlashFixCompatPatcher(
+                    "HeartFlashFix|Compat",
+                    MappingRegistry.getClassNameFor("net/minecraft/client/entity/EntityClientPlayerMP"),
+                    MappingRegistry.getMethodNameFor("EntityClientPlayerMP.setPlayerSPHealth"),
+                    "(F)V"
                 ));
             }
 
