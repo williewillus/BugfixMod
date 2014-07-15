@@ -18,8 +18,6 @@ public class HeartFlashFixCompatPatcher extends AbstractPatcher {
     @Override
     public InsnList buildNewInsns(AbstractInsnNode currentInstruction, Iterator<AbstractInsnNode> instructionSet) {
         InsnList toInject = new InsnList();
-
-        System.out.println(currentInstruction.getOpcode() + ":" + currentInstruction.toString());
         if (currentInstruction.getOpcode() == Opcodes.GETFIELD && currentInstruction.getPrevious().getOpcode() == Opcodes.ALOAD) {
             printMessage("Found entry point");
             String ecpmpClassName = MappingRegistry.getClassNameFor("net/minecraft/client/entity/EntityClientPlayerMP");
@@ -36,6 +34,10 @@ public class HeartFlashFixCompatPatcher extends AbstractPatcher {
             toInject.add(new VarInsnNode(Opcodes.ALOAD, 0));
             toInject.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, ecpmpClassName, getHealthMethodName, "()F"));
             toInject.add(new FieldInsnNode(Opcodes.PUTFIELD, ecpmpClassName, prevHealthFieldName, "F"));
+            LabelNode label = new LabelNode();
+            toInject.add(label);
+
+            /* 1 */ toInject.insert(dummy, new JumpInsnNode(Opcodes.IFLE, label));
 
             successful = true;
         }
