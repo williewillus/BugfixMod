@@ -25,7 +25,7 @@ public class MappingRegistry {
                 //fieldMap.put("EntityArrow.field_145790_g", "g");
 				// ArrowFix's bug has been FIXED by Mojang as of Minecraft 1.7.6. YAY!
                 // methodMap.put("World.getBlock", "a");
-                BugFixModSettings settings = BugfixModClassTransformer.instance.settings;
+                BugfixModSettings settings = BugfixModClassTransformer.instance.settings;
 
                 if (settings.ArrowDingTweakEnabled) {
                     classMap.put("net/minecraft/entity/projectile/EntityArrow", "zc");
@@ -34,14 +34,19 @@ public class MappingRegistry {
                     classMap.put("net/minecraft/entity/monster/IMob", "yb");
                 }
 
-
+                if (settings.BoatDesyncFixEnabled) {
+                    classMap.put("net/minecraft/entity/item/EntityBoat", "xi");
+                    methodMap.put("EntityBoat.setPositionAndRotation2", "a");
+                    methodMap.put("EntityBoat.setBoatIsEmpty", "a")
+;
+                }
                 if (settings.ChatOpacityFixEnabled) {
                     classMap.put("net/minecraft/client/gui/GuiNewChat", "bcc");
                     methodMap.put("GuiNewChat.drawChat", "a");
                 }
 
 
-                if (settings.ChickenLureFixEnabled) {
+                if (settings.ChickenLureTweakEnabled) {
                     classMap.put("net/minecraft/entity/passive/EntityChicken", "wg");
                     fieldMap.put("EntityChicken.tasks", "c");
 
@@ -61,7 +66,6 @@ public class MappingRegistry {
 
                     classMap.put("net/minecraft/entity/EntityCreature", "td");
                 }
-
 
                 if (settings.HeartBlinkFixEnabled) {
                     classMap.put("net/minecraft/client/entity/EntityPlayerSP", "blk");
@@ -157,7 +161,7 @@ public class MappingRegistry {
         } else {
             String get = classMap.get(request.replaceAll("\\.", "/"));
             if (get == null) {
-                System.out.println("[BugfixMod] Warning: MappingRegistry just returned null for a class lookup.");
+                BugfixModClassTransformer.instance.logger.warn("MappingRegistry just returned null for class lookup: " + request);
             }
             return get;
         }
@@ -174,7 +178,7 @@ public class MappingRegistry {
         } else {
             String get = fieldMap.get(request);
             if (get == null) {
-                System.out.println("[BugfixMod] Warning: MappingRegistry just returned null for a field lookup.");
+                BugfixModClassTransformer.instance.logger.warn("MappingRegistry just returned null for field lookup: " + request);
             }
             return get;
         }
@@ -187,7 +191,7 @@ public class MappingRegistry {
         } else {
             String get = methodMap.get(request);
             if (get == null) {
-                System.out.println("[BugfixMod] Warning: MappingRegistry just returned null for a method lookup.");
+                BugfixModClassTransformer.instance.logger.warn("MappingRegistry just returned null for method lookup: " + request);
             }
             return get;
         }

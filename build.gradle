@@ -32,8 +32,8 @@ version = config.mod_version
 archivesBaseName = "[${config.minecraft_version}]${config.mod_id}"
 
 minecraft {
-    version = config.minecraft_version + "-" + config.forge_version // grab latest forge
-    assetDir = "run/assets"
+    version = config.minecraft_version + "-" + config.forge_version
+    runDir = "run/assets"
 	
 	replaceIn "BugfixModDummyContainer.java"
 	replace "@VERSION@", "${config.mod_version}"

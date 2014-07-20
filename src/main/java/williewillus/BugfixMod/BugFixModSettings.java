@@ -3,13 +3,12 @@ package williewillus.BugfixMod;
 /**
  * Created by Vincent on 3/10/14.
  */
-public class BugFixModSettings {
+public class BugfixModSettings {
     public boolean XPFixEnabled;
     public boolean ArrowFixEnabled;
     public boolean SnowballFixEnabled;
     public boolean ChatOpacityFixEnabled;
-    public boolean ChickenLureFixEnabled;
-    public boolean LinkCommandEnabled;
+    public boolean ChickenLureTweakEnabled;
     public boolean VillageAnvilTweakEnabled;
     public boolean ToolDesyncFixEnabled;
     public boolean HeartFlashFixEnabled;
@@ -17,4 +16,5 @@ public class BugFixModSettings {
     public boolean ItemStairBounceFixEnabled;
     public boolean ArrowDingTweakEnabled;
     public boolean HeartBlinkFixEnabled;
+    public boolean BoatDesyncFixEnabled;
 }

@@ -27,8 +27,8 @@ public class HeartFlashFixCompatPatcher extends AbstractPatcher {
             toInject.add(new VarInsnNode(Opcodes.FLOAD, 1));
             toInject.add(new VarInsnNode(Opcodes.ALOAD, 0));
             toInject.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, ecpmpClassName, getHealthMethodName, "()F"));
-            InsnNode dummy = new InsnNode(Opcodes.FCMPL);
-            toInject.add(dummy);
+            InsnNode insertPoint = new InsnNode(Opcodes.FCMPL);
+            toInject.add(insertPoint);
             // 1
             toInject.add(new VarInsnNode(Opcodes.ALOAD, 0));
             toInject.add(new VarInsnNode(Opcodes.ALOAD, 0));
@@ -37,7 +37,7 @@ public class HeartFlashFixCompatPatcher extends AbstractPatcher {
             LabelNode label = new LabelNode();
             toInject.add(label);
 
-            /* 1 */ toInject.insert(dummy, new JumpInsnNode(Opcodes.IFLE, label));
+            /* 1 */ toInject.insert(insertPoint, new JumpInsnNode(Opcodes.IFLE, label));
 
             successful = true;
         }

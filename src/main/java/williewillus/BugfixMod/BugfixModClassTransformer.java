@@ -9,6 +9,7 @@ import williewillus.BugfixMod.patchers.*;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 /**
@@ -19,7 +20,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
     public static BugfixModClassTransformer instance;
     public File settingsFile;
     private boolean hasInit = false;
-    protected BugFixModSettings settings;
+    protected BugfixModSettings settings;
     private ArrayList<AbstractPatcher> patchers;
     public Logger logger = LogManager.getLogger("BugfixMod");
 
@@ -36,36 +37,44 @@ public class BugfixModClassTransformer implements IClassTransformer {
         if (!hasInit) {
             Configuration config = new Configuration(settingsFile);
             config.load();
-            settings = new BugFixModSettings();
+            settings = new BugfixModSettings();
 
 
-            settings.ArrowFixEnabled = config.get("COMMON", "ArrowFixEnabled", true).getBoolean(true);
-            settings.ChickenLureFixEnabled = config.get("COMMON", "ChickenLureFixEnabled", true).getBoolean(true);
+            settings.ArrowFixEnabled = false; // config.get("COMMON", "ArrowFixEnabled", true).getBoolean(true);
             settings.ItemHopperBounceFixEnabled = config.get("COMMON", "ItemHopperBounceFixEnabled", false).getBoolean(false);
-            settings.ItemStairBounceFixEnabled = config.get("COMMON", "ItemStairBounceFixEnabled", true).getBoolean(true);
+            settings.ItemStairBounceFixEnabled = config.get("COMMON", "ItemStairBounceFixEnabled", false).getBoolean(false);
             settings.SnowballFixEnabled = config.get("COMMON", "SnowballFixEnabled", true).getBoolean(true);
 
-
             settings.ArrowDingTweakEnabled = config.get("TWEAKS", "ArrowDingTweakEnabled", false).getBoolean(false);
-            settings.LinkCommandEnabled = config.get("TWEAKS", "LinkCommandEnabled", false).getBoolean(false);
+            settings.ChickenLureTweakEnabled = config.get("TWEAKS", "ChickenLureTweakEnabled", false).getBoolean(false);
             settings.VillageAnvilTweakEnabled = config.get("TWEAKS", "VillageAnvilTweakEnabled", false).getBoolean(false);
 
+            settings.BoatDesyncFixEnabled = config.get("CLIENT", "BoatDesyncFixEnabled", true).getBoolean(true);
             settings.ChatOpacityFixEnabled = config.get("CLIENT", "ChatOpacityFixEnabled", true).getBoolean(true);
             settings.HeartBlinkFixEnabled = config.get("CLIENT", "HeartBlinkFixEnabled", true).getBoolean(true);
             settings.HeartFlashFixEnabled = config.get("CLIENT", "HeartFlashFixEnabled", true).getBoolean(true);
-            settings.ToolDesyncFixEnabled = config.get("CLIENT", "ToolDesyncFixEnabled", false).getBoolean(false);
+            settings.ToolDesyncFixEnabled = config.get("CLIENT", "ToolDesyncFixEnabled", true).getBoolean(true);
             settings.XPFixEnabled = config.get("CLIENT", "XPFixEnabled", true).getBoolean(true);
 
             if (ForgeVersion.getBuildVersion() >= 1181) {
                 settings.ChatOpacityFixEnabled = false;
-                logger.info("[BugfixMod] ChatOpacityFix disabled as it is now included in Forge!");
+                logger.info("ChatOpacityFix disabled as it is now included in Forge!");
             }
 
             if (ForgeVersion.getBuildVersion() >= 1182) {
                 settings.XPFixEnabled = false;
-                logger.info("[BugfixMod] XPFix disabled as it is now included in Forge!");
+                logger.info("XPFix disabled as it is now included in Forge!");
             }
 
+            if (!Arrays.asList(new File(new File(settingsFile.getParent()).getParent()).list()).contains("saves")) {
+                logger.info("You probably are on a dedicated server. Disabling client fixes");
+                settings.BoatDesyncFixEnabled = false;
+                settings.ChatOpacityFixEnabled = false;
+                settings.HeartBlinkFixEnabled = false;
+                settings.HeartFlashFixEnabled = false;
+                settings.ToolDesyncFixEnabled = false;
+                settings.XPFixEnabled = false;
+            }
 
             config.save();
             MappingRegistry.init(isObf);
@@ -73,6 +82,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
             hasInit = true;
         }
     }
+
 
     public byte[] transform(String par1, String par2, byte[] bytes) {
         if (hasInit) {
@@ -90,17 +100,17 @@ public class BugfixModClassTransformer implements IClassTransformer {
         } else {
             patchers = new ArrayList<AbstractPatcher>();
 
-            //if (settings.ArrowFixEnabled) {
-            //    patchers.add(new ArrowFixPatcher(
-            //            "ArrowFix",
-            //            MappingRegistry.getClassNameFor("net/minecraft/entity/projectile/EntityArrow"),
-            //            MappingRegistry.getMethodNameFor("EntityArrow.onUpdate"),
-            //            "()V",
-            //            MappingRegistry.getFieldNameFor("EntityArrow.field_145790_g")
-            //    ));
-            //}
+//            if (settings.ArrowFixEnabled) {
+//                patchers.add(new ArrowFixPatcher(
+//                        "ArrowFix",
+//                        MappingRegistry.getClassNameFor("net/minecraft/entity/projectile/EntityArrow"),
+//                        MappingRegistry.getMethodNameFor("EntityArrow.onUpdate"),
+//                        "()V",
+//                        MappingRegistry.getFieldNameFor("EntityArrow.field_145790_g")
+//                ));
+//            }
 
-            // ArrowFix's bug has been FIXED by Mojang as of Minecraft 1.7.6. YAY!
+//            ArrowFix's bug has been FIXED by Mojang as of Minecraft 1.7.6. YAY!
 
             if (settings.ArrowDingTweakEnabled) {
                 patchers.add(new ArrowDingTweakPatcher(
@@ -108,6 +118,22 @@ public class BugfixModClassTransformer implements IClassTransformer {
                         MappingRegistry.getClassNameFor("net/minecraft/entity/projectile/EntityArrow"),
                         MappingRegistry.getMethodNameFor("EntityArrow.onUpdate"),
                         "()V"
+                ));
+            }
+
+            if (settings.BoatDesyncFixEnabled) {
+                patchers.add(new BoatDesyncFixPatcher_Main(
+                    "BoatDesyncFix",
+                    MappingRegistry.getClassNameFor("net/minecraft/entity/item/EntityBoat"),
+                    MappingRegistry.getMethodNameFor("EntityBoat.setBoatIsEmpty"),
+                    "(Z)V"
+                ));
+
+                patchers.add(new BoatDesyncFixPatcher_Extra(
+                    "BoatDesyncFix|Extra",
+                    MappingRegistry.getClassNameFor("net/minecraft/entity/item/EntityBoat"),
+                    MappingRegistry.getMethodNameFor("EntityBoat.setPositionAndRotation2"),
+                    "(DDDFFI)V"
                 ));
             }
 
@@ -120,9 +146,9 @@ public class BugfixModClassTransformer implements IClassTransformer {
                 ));
             }
 
-            if (settings.ChickenLureFixEnabled) {
-                patchers.add(new ChickenLureFixPatcher(
-                        "ChickenLureFix",
+            if (settings.ChickenLureTweakEnabled) {
+                patchers.add(new ChickenLureTweakPatcher(
+                        "ChickenLureTweak",
                         MappingRegistry.getClassNameFor("net/minecraft/entity/passive/EntityChicken"),
                         "<init>",
                         "(L" + MappingRegistry.getClassNameFor("net/minecraft/world/World") + ";)V"
@@ -146,11 +172,14 @@ public class BugfixModClassTransformer implements IClassTransformer {
                         "(L" + MappingRegistry.getClassNameFor("net/minecraft/util/DamageSource") + ";F)Z"
                 ));
 
+            }
+
+            if (settings.HeartBlinkFixEnabled && settings.HeartFlashFixEnabled) {
                 patchers.add(new HeartFlashFixCompatPatcher(
-                    "HeartFlashFix|Compat",
-                    MappingRegistry.getClassNameFor("net/minecraft/client/entity/EntityClientPlayerMP"),
-                    MappingRegistry.getMethodNameFor("EntityClientPlayerMP.setPlayerSPHealth"),
-                    "(F)V"
+                        "HeartFlashFix|Compat",
+                        MappingRegistry.getClassNameFor("net/minecraft/client/entity/EntityClientPlayerMP"),
+                        MappingRegistry.getMethodNameFor("EntityClientPlayerMP.setPlayerSPHealth"),
+                        "(F)V"
                 ));
             }
 
