@@ -8,6 +8,8 @@ import java.util.Iterator;
 
 /**
  * Created by Vincent on 7/15/2014.
+ *
+ * This makes the heart delta flash and regen blink fixes work together by assigning some fields.
  */
 public class HeartFlashFixCompatPatcher extends AbstractPatcher {
 

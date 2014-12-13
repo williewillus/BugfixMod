@@ -8,6 +8,8 @@ import java.util.Iterator;
 
 /**
  * Created by Vincent on 7/19/2014.
+ *
+ * This fix further attempts to reduce boat desyncing.
  */
 public class BoatDesyncFixPatcher_Extra extends AbstractPatcher implements ModificationPatcher {
 

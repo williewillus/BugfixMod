@@ -10,6 +10,8 @@ import java.util.Iterator;
 
 /**
  * Created by Vincent on 6/6/2014.
+ *
+ * This tweak replaces the double stone slab in a blacksmith house with an anvil.
  */
 public class VillageAnvilTweakPatcher extends AbstractPatcher implements ModificationPatcher {
 

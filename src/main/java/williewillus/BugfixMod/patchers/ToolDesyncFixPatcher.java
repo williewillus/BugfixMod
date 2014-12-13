@@ -8,6 +8,8 @@ import java.util.Iterator;
 
 /**
  * Created by Vincent on 6/6/2014.
+ *
+ * This fix makes Unbreaking tools not desync anymore by only damaging tools serverside
  */
 public class ToolDesyncFixPatcher extends AbstractPatcher {
 

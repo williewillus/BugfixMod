@@ -8,6 +8,9 @@ import java.util.Iterator;
 
 /**
  * Created by Vincent on 7/19/2014.
+ *
+ * This fix tries to reduce boat desyncing (at the cost of rubber-banding more).
+ * It does this by not allowing the client to have full control over the boat and ignoring server packets.
  */
 public class BoatDesyncFixPatcher_Main extends AbstractPatcher implements ModificationPatcher {
     public BoatDesyncFixPatcher_Main(String name, String targetClassName, String targetMethodName, String targetMethodDesc) {

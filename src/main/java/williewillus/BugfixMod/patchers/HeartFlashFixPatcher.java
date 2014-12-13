@@ -8,6 +8,8 @@ import java.util.Iterator;
 
 /**
  * Created by Vincent on 6/6/2014.
+ *
+ * This makes hearts flash the health "delta" after damage by assigning an unused clientside field.
  */
 public class HeartFlashFixPatcher extends AbstractPatcher {
 

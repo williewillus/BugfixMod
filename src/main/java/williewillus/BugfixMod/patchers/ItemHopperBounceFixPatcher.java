@@ -10,6 +10,8 @@ import java.util.Iterator;
 
 /**
  * Created by Vincent on 6/12/2014.
+ *
+ * This fix removes the setblockbounds to a full size block, preventing items from boinging around on locked hoppers.
  */
 public class ItemHopperBounceFixPatcher extends AbstractPatcher implements ModificationPatcher {
     public ItemHopperBounceFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc) {

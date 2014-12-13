@@ -8,6 +8,8 @@ import java.util.Iterator;
 
 /**
  * Created by Vincent on 6/6/2014.
+ *
+ * This tweak makes chickens follow anything they can breed with.
  */
 public class ChickenLureTweakPatcher extends AbstractPatcher {
 

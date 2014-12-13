@@ -9,6 +9,8 @@ import java.util.Iterator;
 
 /**
  * Created by Vincent on 7/15/2014.
+ *
+ * This fix makes the hearts blink when regenning again by giving the network pipe more time to process the next packet.
  */
 public class HeartBlinkFixPatcher extends AbstractPatcher {
     public HeartBlinkFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc) {

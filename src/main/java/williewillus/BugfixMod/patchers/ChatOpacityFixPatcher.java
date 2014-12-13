@@ -10,6 +10,8 @@ import java.util.Iterator;
 
 /**
  * Created by Vincent on 6/6/2014.
+ *
+ * Fixes broken chat opacity by reinserting a glEnable call that got lost after 1.6.4.
  */
 public class ChatOpacityFixPatcher extends AbstractPatcher {
 

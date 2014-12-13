@@ -7,7 +7,8 @@ import java.util.Iterator;
 
 /**
  * Created by Vincent on 6/6/2014.
- */
+ *
+ * This fix spawns XP orbs in the correct place by re-dividing the coords by 32.0D. */
 public class XPFixPatcher extends AbstractPatcher {
 
     public XPFixPatcher(String name, String targetClassName, String targetMethodName, String targetMethodDesc) {

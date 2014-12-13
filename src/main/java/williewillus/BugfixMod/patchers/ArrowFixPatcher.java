@@ -7,6 +7,8 @@ import java.util.Iterator;
 
 /**
  * Created by Vincent on 6/6/2014.
+ *
+ * This fix corrects incorrect field assignments that led to arrows severely duping and glitching.
  */
 @Deprecated
 public class ArrowFixPatcher extends AbstractPatcher {

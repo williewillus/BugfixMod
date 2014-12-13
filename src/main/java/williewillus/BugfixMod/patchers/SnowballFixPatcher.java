@@ -8,6 +8,8 @@ import java.util.Iterator;
 
 /**
  * Created by Vincent on 6/6/2014.
+ *
+ * This fix makes projectiles knockback players again by removing a catch check for 0 damage events
  */
 public class SnowballFixPatcher extends AbstractPatcher implements ModificationPatcher {
 

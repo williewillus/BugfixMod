@@ -10,6 +10,8 @@ import java.util.Iterator;
 
 /**
  * Created by Vincent on 6/17/2014.
+ *
+ * This tweak makes the "ding" (random.successful_hit) sound trigger for all hostile mobs, not just players.
  */
 public class ArrowDingTweakPatcher extends AbstractPatcher implements ModificationPatcher {
 
