@@ -29,7 +29,13 @@ public abstract class AbstractPatcher {
 
     public byte[] patch(byte[] bytes) {
         ClassNode classNode = new ClassNode();
-        ClassReader classReader = new ClassReader(bytes);
+        ClassReader classReader = null;
+        try {
+            classReader = new ClassReader(bytes);
+        } catch (NullPointerException e) { // Thrown when LiteLoader classes are read.
+            // Silently ignore.
+            return bytes;
+        }
         classReader.accept(classNode, 0);
 
         if (classNode.name.equals(targetClassName)) {
