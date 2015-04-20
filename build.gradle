@@ -27,6 +27,12 @@ configFile.withReader {
     project.ext.config = new ConfigSlurper().parse prop
 }
 
+idea {
+    module {
+        inheritOutputDirs = true
+	}
+}
+
 group = config.group_name
 version = config.mod_version
 archivesBaseName = "[${config.minecraft_version}]${config.mod_id}"

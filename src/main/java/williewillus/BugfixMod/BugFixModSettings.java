@@ -17,4 +17,5 @@ public class BugfixModSettings {
     public boolean ArrowDingTweakEnabled;
     public boolean HeartBlinkFixEnabled;
     public boolean BoatDesyncFixEnabled;
+    public boolean PushTweakEnabled;
 }

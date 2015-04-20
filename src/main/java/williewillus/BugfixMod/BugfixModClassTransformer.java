@@ -53,6 +53,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
             settings.ChatOpacityFixEnabled = config.get("CLIENT", "ChatOpacityFixEnabled", true).getBoolean(true);
             settings.HeartBlinkFixEnabled = config.get("CLIENT", "HeartBlinkFixEnabled", true).getBoolean(true);
             settings.HeartFlashFixEnabled = config.get("CLIENT", "HeartFlashFixEnabled", true).getBoolean(true);
+            settings.PushTweakEnabled = config.get("CLIENT", "PushTweakEnabled", false).getBoolean(false);
             settings.ToolDesyncFixEnabled = config.get("CLIENT", "ToolDesyncFixEnabled", true).getBoolean(true);
             settings.XPFixEnabled = config.get("CLIENT", "XPFixEnabled", true).getBoolean(true);
 
@@ -72,6 +73,7 @@ public class BugfixModClassTransformer implements IClassTransformer {
                 settings.ChatOpacityFixEnabled = false;
                 settings.HeartBlinkFixEnabled = false;
                 settings.HeartFlashFixEnabled = false;
+                settings.PushTweakEnabled = false;
                 settings.ToolDesyncFixEnabled = false;
                 settings.XPFixEnabled = false;
             }
@@ -210,6 +212,15 @@ public class BugfixModClassTransformer implements IClassTransformer {
                                 ";Ljava/util/List;L" +
                                 MappingRegistry.getClassNameFor("net/minecraft/entity/Entity")
                                 + ";)V"
+                ));
+            }
+
+            if (settings.PushTweakEnabled) {
+                patchers.add(new PushTweakPatcher(
+                        "PushTweak",
+                        MappingRegistry.getClassNameFor("net/minecraft/entity/EntityLivingBase"),
+                        MappingRegistry.getMethodNameFor("EntityLivingBase.onLivingUpdate"),
+                        "()V"
                 ));
             }
 

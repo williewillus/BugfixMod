@@ -1,14 +1,16 @@
 package williewillus.BugfixMod;
 
-import java.util.HashMap;
+import com.google.common.collect.Maps;
+
+import java.util.Map;
 
 /**
  * Created by Vincent on 6/6/2014.
  */
 public class MappingRegistry {
-    private static HashMap<String, String> classMap = new HashMap<String, String>();
-    private static HashMap<String, String> fieldMap = new HashMap<String, String>();
-    private static HashMap<String, String> methodMap = new HashMap<String, String>();
+    private static Map<String, String> classMap = Maps.newHashMap();
+    private static Map<String, String> fieldMap = Maps.newHashMap();
+    private static Map<String, String> methodMap = Maps.newHashMap();
 
     private static boolean hasInit = false;
     private static boolean isObf;
@@ -101,6 +103,14 @@ public class MappingRegistry {
                     classMap.put("net/minecraft/util/AxisAlignedBB", "azt");
                     classMap.put("net/minecraft/entity/Entity", "sa");
 
+                }
+
+                if (settings.PushTweakEnabled) {
+                    classMap.put("net/minecraft/entity/EntityLivingBase", "sv");
+                    classMap.put("net/minecraft/world/World", "ahb");
+                    classMap.put("net/minecraft/entity/player/EntityPlayer", "yz");
+                    methodMap.put("EntityLivingBase.onLivingUpdate", "e");
+                    fieldMap.put("World.isRemote", "E");
                 }
 
                 if (settings.SnowballFixEnabled) {
