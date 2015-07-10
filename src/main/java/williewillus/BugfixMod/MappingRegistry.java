@@ -29,13 +29,6 @@ public class MappingRegistry {
                 // methodMap.put("World.getBlock", "a");
                 BugfixModSettings settings = BugfixModClassTransformer.instance.settings;
 
-                if (settings.ArrowDingTweakEnabled) {
-                    classMap.put("net/minecraft/entity/projectile/EntityArrow", "zc");
-                    methodMap.put("EntityArrow.onUpdate", "h");
-                    classMap.put("net/minecraft/entity/player/EntityPlayer", "yz");
-                    classMap.put("net/minecraft/entity/monster/IMob", "yb");
-                }
-
                 if (settings.BoatDesyncFixEnabled) {
                     classMap.put("net/minecraft/entity/item/EntityBoat", "xi");
                     methodMap.put("EntityBoat.setPositionAndRotation2", "a");
@@ -103,14 +96,6 @@ public class MappingRegistry {
                     classMap.put("net/minecraft/util/AxisAlignedBB", "azt");
                     classMap.put("net/minecraft/entity/Entity", "sa");
 
-                }
-
-                if (settings.PushTweakEnabled) {
-                    classMap.put("net/minecraft/entity/EntityLivingBase", "sv");
-                    classMap.put("net/minecraft/world/World", "ahb");
-                    classMap.put("net/minecraft/entity/player/EntityPlayer", "yz");
-                    methodMap.put("EntityLivingBase.onLivingUpdate", "e");
-                    fieldMap.put("World.isRemote", "E");
                 }
 
                 if (settings.SnowballFixEnabled) {

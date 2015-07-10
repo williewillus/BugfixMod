@@ -5,7 +5,20 @@ import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.common.config.Configuration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import williewillus.BugfixMod.patchers.*;
+import williewillus.BugfixMod.patchers.AbstractPatcher;
+import williewillus.BugfixMod.patchers.BoatDesyncFixPatcher_Extra;
+import williewillus.BugfixMod.patchers.BoatDesyncFixPatcher_Main;
+import williewillus.BugfixMod.patchers.ChatOpacityFixPatcher;
+import williewillus.BugfixMod.patchers.ChickenLureTweakPatcher;
+import williewillus.BugfixMod.patchers.HeartBlinkFixPatcher;
+import williewillus.BugfixMod.patchers.HeartFlashFixCompatPatcher;
+import williewillus.BugfixMod.patchers.HeartFlashFixPatcher;
+import williewillus.BugfixMod.patchers.ItemHopperBounceFixPatcher;
+import williewillus.BugfixMod.patchers.ItemStairBounceFixPatcher;
+import williewillus.BugfixMod.patchers.SnowballFixPatcher;
+import williewillus.BugfixMod.patchers.ToolDesyncFixPatcher;
+import williewillus.BugfixMod.patchers.VillageAnvilTweakPatcher;
+import williewillus.BugfixMod.patchers.XPFixPatcher;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -40,12 +53,10 @@ public class BugfixModClassTransformer implements IClassTransformer {
             settings = new BugfixModSettings();
 
 
-            settings.ArrowFixEnabled = false; // config.get("COMMON", "ArrowFixEnabled", true).getBoolean(true);
             settings.ItemHopperBounceFixEnabled = config.get("COMMON", "ItemHopperBounceFixEnabled", false).getBoolean(false);
             settings.ItemStairBounceFixEnabled = config.get("COMMON", "ItemStairBounceFixEnabled", false).getBoolean(false);
             settings.SnowballFixEnabled = config.get("COMMON", "SnowballFixEnabled", true).getBoolean(true);
 
-            settings.ArrowDingTweakEnabled = config.get("TWEAKS", "ArrowDingTweakEnabled", false).getBoolean(false);
             settings.ChickenLureTweakEnabled = config.get("TWEAKS", "ChickenLureTweakEnabled", false).getBoolean(false);
             settings.VillageAnvilTweakEnabled = config.get("TWEAKS", "VillageAnvilTweakEnabled", false).getBoolean(false);
 
@@ -53,7 +64,6 @@ public class BugfixModClassTransformer implements IClassTransformer {
             settings.ChatOpacityFixEnabled = config.get("CLIENT", "ChatOpacityFixEnabled", true).getBoolean(true);
             settings.HeartBlinkFixEnabled = config.get("CLIENT", "HeartBlinkFixEnabled", true).getBoolean(true);
             settings.HeartFlashFixEnabled = config.get("CLIENT", "HeartFlashFixEnabled", true).getBoolean(true);
-            settings.PushTweakEnabled = config.get("CLIENT", "PushTweakEnabled", false).getBoolean(false);
             settings.ToolDesyncFixEnabled = config.get("CLIENT", "ToolDesyncFixEnabled", true).getBoolean(true);
             settings.XPFixEnabled = config.get("CLIENT", "XPFixEnabled", true).getBoolean(true);
 
@@ -73,7 +83,6 @@ public class BugfixModClassTransformer implements IClassTransformer {
                 settings.ChatOpacityFixEnabled = false;
                 settings.HeartBlinkFixEnabled = false;
                 settings.HeartFlashFixEnabled = false;
-                settings.PushTweakEnabled = false;
                 settings.ToolDesyncFixEnabled = false;
                 settings.XPFixEnabled = false;
             }
@@ -102,26 +111,6 @@ public class BugfixModClassTransformer implements IClassTransformer {
         } else {
             patchers = new ArrayList<AbstractPatcher>();
 
-//            if (settings.ArrowFixEnabled) {
-//                patchers.add(new ArrowFixPatcher(
-//                        "ArrowFix",
-//                        MappingRegistry.getClassNameFor("net/minecraft/entity/projectile/EntityArrow"),
-//                        MappingRegistry.getMethodNameFor("EntityArrow.onUpdate"),
-//                        "()V",
-//                        MappingRegistry.getFieldNameFor("EntityArrow.field_145790_g")
-//                ));
-//            }
-
-//            ArrowFix's bug has been FIXED by Mojang as of Minecraft 1.7.6. YAY!
-
-            if (settings.ArrowDingTweakEnabled) {
-                patchers.add(new ArrowDingTweakPatcher(
-                        "ArrowDingTweak",
-                        MappingRegistry.getClassNameFor("net/minecraft/entity/projectile/EntityArrow"),
-                        MappingRegistry.getMethodNameFor("EntityArrow.onUpdate"),
-                        "()V"
-                ));
-            }
 
             if (settings.BoatDesyncFixEnabled) {
                 patchers.add(new BoatDesyncFixPatcher_Main(
@@ -130,7 +119,6 @@ public class BugfixModClassTransformer implements IClassTransformer {
                     MappingRegistry.getMethodNameFor("EntityBoat.setBoatIsEmpty"),
                     "(Z)V"
                 ));
-
                 patchers.add(new BoatDesyncFixPatcher_Extra(
                     "BoatDesyncFix|Extra",
                     MappingRegistry.getClassNameFor("net/minecraft/entity/item/EntityBoat"),
@@ -212,15 +200,6 @@ public class BugfixModClassTransformer implements IClassTransformer {
                                 ";Ljava/util/List;L" +
                                 MappingRegistry.getClassNameFor("net/minecraft/entity/Entity")
                                 + ";)V"
-                ));
-            }
-
-            if (settings.PushTweakEnabled) {
-                patchers.add(new PushTweakPatcher(
-                        "PushTweak",
-                        MappingRegistry.getClassNameFor("net/minecraft/entity/EntityLivingBase"),
-                        MappingRegistry.getMethodNameFor("EntityLivingBase.onLivingUpdate"),
-                        "()V"
                 ));
             }
 

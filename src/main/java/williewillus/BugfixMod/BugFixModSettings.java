@@ -5,7 +5,6 @@ package williewillus.BugfixMod;
  */
 public class BugfixModSettings {
     public boolean XPFixEnabled;
-    public boolean ArrowFixEnabled;
     public boolean SnowballFixEnabled;
     public boolean ChatOpacityFixEnabled;
     public boolean ChickenLureTweakEnabled;
@@ -14,8 +13,6 @@ public class BugfixModSettings {
     public boolean HeartFlashFixEnabled;
     public boolean ItemHopperBounceFixEnabled;
     public boolean ItemStairBounceFixEnabled;
-    public boolean ArrowDingTweakEnabled;
     public boolean HeartBlinkFixEnabled;
     public boolean BoatDesyncFixEnabled;
-    public boolean PushTweakEnabled;
 }
