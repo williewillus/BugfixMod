@@ -1,4 +1,4 @@
-package williewillus.BugfixMod;
+package williewillus.BugfixMod.coremod;
 
 import com.google.common.eventbus.EventBus;
 import cpw.mods.fml.common.DummyModContainer;

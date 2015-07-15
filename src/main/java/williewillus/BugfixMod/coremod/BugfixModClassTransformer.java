@@ -1,24 +1,20 @@
-package williewillus.BugfixMod;
+package williewillus.BugfixMod.coremod;
 
 import net.minecraft.launchwrapper.IClassTransformer;
-import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.common.config.Configuration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import williewillus.BugfixMod.patchers.AbstractPatcher;
-import williewillus.BugfixMod.patchers.BoatDesyncFixPatcher_Extra;
-import williewillus.BugfixMod.patchers.BoatDesyncFixPatcher_Main;
-import williewillus.BugfixMod.patchers.ChatOpacityFixPatcher;
-import williewillus.BugfixMod.patchers.ChickenLureTweakPatcher;
-import williewillus.BugfixMod.patchers.HeartBlinkFixPatcher;
-import williewillus.BugfixMod.patchers.HeartFlashFixCompatPatcher;
-import williewillus.BugfixMod.patchers.HeartFlashFixPatcher;
-import williewillus.BugfixMod.patchers.ItemHopperBounceFixPatcher;
-import williewillus.BugfixMod.patchers.ItemStairBounceFixPatcher;
-import williewillus.BugfixMod.patchers.SnowballFixPatcher;
-import williewillus.BugfixMod.patchers.ToolDesyncFixPatcher;
-import williewillus.BugfixMod.patchers.VillageAnvilTweakPatcher;
-import williewillus.BugfixMod.patchers.XPFixPatcher;
+import williewillus.BugfixMod.BugfixModSettings;
+import williewillus.BugfixMod.coremod.patchers.AbstractPatcher;
+import williewillus.BugfixMod.coremod.patchers.BoatDesyncFixPatcher_Extra;
+import williewillus.BugfixMod.coremod.patchers.BoatDesyncFixPatcher_Main;
+import williewillus.BugfixMod.coremod.patchers.ChickenLureTweakPatcher;
+import williewillus.BugfixMod.coremod.patchers.HeartBlinkFixPatcher;
+import williewillus.BugfixMod.coremod.patchers.HeartFlashFixPatcher;
+import williewillus.BugfixMod.coremod.patchers.ItemHopperBounceFixPatcher;
+import williewillus.BugfixMod.coremod.patchers.ItemStairBounceFixPatcher;
+import williewillus.BugfixMod.coremod.patchers.SnowballFixPatcher;
+import williewillus.BugfixMod.coremod.patchers.VillageAnvilTweakPatcher;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -61,30 +57,14 @@ public class BugfixModClassTransformer implements IClassTransformer {
             settings.VillageAnvilTweakEnabled = config.get("TWEAKS", "VillageAnvilTweakEnabled", false).getBoolean(false);
 
             settings.BoatDesyncFixEnabled = config.get("CLIENT", "BoatDesyncFixEnabled", true).getBoolean(true);
-            settings.ChatOpacityFixEnabled = config.get("CLIENT", "ChatOpacityFixEnabled", true).getBoolean(true);
             settings.HeartBlinkFixEnabled = config.get("CLIENT", "HeartBlinkFixEnabled", true).getBoolean(true);
             settings.HeartFlashFixEnabled = config.get("CLIENT", "HeartFlashFixEnabled", true).getBoolean(true);
-            settings.ToolDesyncFixEnabled = config.get("CLIENT", "ToolDesyncFixEnabled", true).getBoolean(true);
-            settings.XPFixEnabled = config.get("CLIENT", "XPFixEnabled", true).getBoolean(true);
-
-            if (ForgeVersion.getBuildVersion() >= 1181) {
-                settings.ChatOpacityFixEnabled = false;
-                logger.info("ChatOpacityFix disabled as it is now included in Forge!");
-            }
-
-            if (ForgeVersion.getBuildVersion() >= 1182) {
-                settings.XPFixEnabled = false;
-                logger.info("XPFix disabled as it is now included in Forge!");
-            }
 
             if (!Arrays.asList(new File(new File(settingsFile.getParent()).getParent()).list()).contains("saves")) {
                 logger.info("You probably are on a dedicated server. Disabling client fixes");
                 settings.BoatDesyncFixEnabled = false;
-                settings.ChatOpacityFixEnabled = false;
                 settings.HeartBlinkFixEnabled = false;
                 settings.HeartFlashFixEnabled = false;
-                settings.ToolDesyncFixEnabled = false;
-                settings.XPFixEnabled = false;
             }
 
             config.save();
@@ -127,15 +107,6 @@ public class BugfixModClassTransformer implements IClassTransformer {
                 ));
             }
 
-            if (settings.ChatOpacityFixEnabled) {
-                patchers.add(new ChatOpacityFixPatcher(
-                        "ChatOpacityFix",
-                        MappingRegistry.getClassNameFor("net/minecraft/client/gui/GuiNewChat"),
-                        MappingRegistry.getMethodNameFor("GuiNewChat.drawChat"),
-                        "(I)V"
-                ));
-            }
-
             if (settings.ChickenLureTweakEnabled) {
                 patchers.add(new ChickenLureTweakPatcher(
                         "ChickenLureTweak",
@@ -165,12 +136,12 @@ public class BugfixModClassTransformer implements IClassTransformer {
             }
 
             if (settings.HeartBlinkFixEnabled && settings.HeartFlashFixEnabled) {
-                patchers.add(new HeartFlashFixCompatPatcher(
-                        "HeartFlashFix|Compat",
-                        MappingRegistry.getClassNameFor("net/minecraft/client/entity/EntityClientPlayerMP"),
-                        MappingRegistry.getMethodNameFor("EntityClientPlayerMP.setPlayerSPHealth"),
-                        "(F)V"
-                ));
+//                patchers.add(new HeartFlashFixCompatPatcher(
+//                        "HeartFlashFix|Compat",
+//                        MappingRegistry.getClassNameFor("net/minecraft/client/entity/EntityClientPlayerMP"),
+//                        MappingRegistry.getMethodNameFor("EntityClientPlayerMP.setPlayerSPHealth"),
+//                        "(F)V"
+//                ));
             }
 
             if (settings.ItemHopperBounceFixEnabled) {
@@ -212,20 +183,6 @@ public class BugfixModClassTransformer implements IClassTransformer {
                 ));
             }
 
-            String sig = "(L" + MappingRegistry.getClassNameFor("net/minecraft/item/ItemStack") + ";"
-                    + "L" + MappingRegistry.getClassNameFor("net/minecraft/world/World") + ";"
-                    + "L" + MappingRegistry.getClassNameFor("net/minecraft/block/Block") + ";"
-                    + "IIIL" + MappingRegistry.getClassNameFor("net/minecraft/entity/EntityLivingBase") + ";)Z";
-
-            if (settings.ToolDesyncFixEnabled) {
-                patchers.add(new ToolDesyncFixPatcher(
-                        "ToolDesyncFix",
-                        MappingRegistry.getClassNameFor("net/minecraft/item/ItemTool"),
-                        MappingRegistry.getMethodNameFor("ItemTool.onBlockDestroyed"),
-                        sig // break out into separate block above for readability
-                ));
-            }
-
             String sig2 = "(L" + MappingRegistry.getClassNameFor("net/minecraft/world/World") + ";"
                     + "Ljava/util/Random;"
                     + "L" + MappingRegistry.getClassNameFor("net/minecraft/world/gen/structure/StructureBoundingBox") + ";)Z";
@@ -238,16 +195,6 @@ public class BugfixModClassTransformer implements IClassTransformer {
                         sig2 // break out into separate block above for readability
                 ));
             }
-
-            if (settings.XPFixEnabled) {
-                patchers.add(new XPFixPatcher(
-                        "XPFix",
-                        MappingRegistry.getClassNameFor("net/minecraft/client/network/NetHandlerPlayClient"),
-                        MappingRegistry.getMethodNameFor("NetHandlerPlayClient.handleSpawnExperienceOrb"),
-                        "(L" + MappingRegistry.getClassNameFor("net/minecraft/network/play/server/S11PacketSpawnExperienceOrb") + ";)V"
-                ));
-            }
-
         }
     }
 }

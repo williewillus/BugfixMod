@@ -1,8 +1,8 @@
-package williewillus.BugfixMod.patchers;
+package williewillus.BugfixMod.coremod.patchers;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
-import williewillus.BugfixMod.MappingRegistry;
+import williewillus.BugfixMod.coremod.MappingRegistry;
 
 import java.util.Iterator;
 

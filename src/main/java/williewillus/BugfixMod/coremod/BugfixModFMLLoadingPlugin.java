@@ -1,4 +1,4 @@
-package williewillus.BugfixMod;
+package williewillus.BugfixMod.coremod;
 
 import cpw.mods.fml.relauncher.IFMLCallHook;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;

@@ -1,4 +1,4 @@
-package williewillus.BugfixMod.patchers;
+package williewillus.BugfixMod.coremod.patchers;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;

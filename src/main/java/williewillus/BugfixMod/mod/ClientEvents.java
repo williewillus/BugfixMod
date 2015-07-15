@@ -1,10 +1,11 @@
-package williewillus.BugfixMod;
+package williewillus.BugfixMod.mod;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraftforge.event.world.BlockEvent;
+import williewillus.BugfixMod.coremod.BugfixModClassTransformer;
 
 import java.lang.reflect.Method;
 
@@ -20,7 +21,6 @@ public class ClientEvents {
             try {
                 m.setAccessible(true);
                 m.invoke(controller);
-                BugfixModClassTransformer.instance.logger.info("Tooldesyncfix resynced");
             } catch (ReflectiveOperationException ex) {
                 BugfixModClassTransformer.instance.logger.warn("Tooldesyncfix failed to resync");
             }

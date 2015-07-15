@@ -73,7 +73,7 @@ processResources {
 jar {
     appendix = 'universal'
     manifest {
-        attributes 'FMLCorePlugin': 'williewillus.BugfixMod.BugfixModFMLLoadingPlugin'
+        attributes 'FMLCorePlugin': 'williewillus.BugfixMod.coremod.BugfixModFMLLoadingPlugin'
     }
 }
 

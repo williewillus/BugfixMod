@@ -1,6 +1,7 @@
-package williewillus.BugfixMod;
+package williewillus.BugfixMod.coremod;
 
 import com.google.common.collect.Maps;
+import williewillus.BugfixMod.BugfixModSettings;
 
 import java.util.Map;
 
@@ -19,14 +20,6 @@ public class MappingRegistry {
         if (!hasInit) {
             MappingRegistry.isObf = isObf;
             if (MappingRegistry.isObf) {
-                // ArrowFix
-                //fieldMap.put("EntityArrow.worldObj", "p");
-                //fieldMap.put("EntityArrow.field_145791_d", "d");
-                //fieldMap.put("EntityArrow.field_145792_e", "e");
-                //fieldMap.put("EntityArrow.field_145789_f", "f");
-                //fieldMap.put("EntityArrow.field_145790_g", "g");
-				// ArrowFix's bug has been FIXED by Mojang as of Minecraft 1.7.6. YAY!
-                // methodMap.put("World.getBlock", "a");
                 BugfixModSettings settings = BugfixModClassTransformer.instance.settings;
 
                 if (settings.BoatDesyncFixEnabled) {
@@ -35,11 +28,6 @@ public class MappingRegistry {
                     methodMap.put("EntityBoat.setBoatIsEmpty", "a")
 ;
                 }
-                if (settings.ChatOpacityFixEnabled) {
-                    classMap.put("net/minecraft/client/gui/GuiNewChat", "bcc");
-                    methodMap.put("GuiNewChat.drawChat", "a");
-                }
-
 
                 if (settings.ChickenLureTweakEnabled) {
                     classMap.put("net/minecraft/entity/passive/EntityChicken", "wg");
@@ -105,18 +93,6 @@ public class MappingRegistry {
                     classMap.put("net/minecraft/util/DamageSource", "ro");
                 }
 
-                if (settings.ToolDesyncFixEnabled) {
-                    classMap.put("net/minecraft/item/ItemTool", "acg");
-                    methodMap.put("ItemTool.onBlockDestroyed", "a");
-
-                    classMap.put("net/minecraft/item/ItemStack", "add");
-                    classMap.put("net/minecraft/entity/EntityLivingBase", "sv");
-                    classMap.put("net/minecraft/block/Block", "aji");
-
-                    classMap.put("net/minecraft/world/World", "ahb");
-                    fieldMap.put("World.isRemote", "E");
-                }
-
                 if (settings.VillageAnvilTweakEnabled) {
                     classMap.put("net/minecraft/world/World", "ahb");
 
@@ -130,14 +106,6 @@ public class MappingRegistry {
                     fieldMap.put("Blocks.anvil", "bQ");
                     fieldMap.put("Blocks.double_stone_slab", "T");
                 }
-
-                if (settings.XPFixEnabled) {
-                    classMap.put("net/minecraft/client/network/NetHandlerPlayClient", "bjb");
-                    methodMap.put("NetHandlerPlayClient.handleSpawnExperienceOrb", "a");
-
-                    classMap.put("net/minecraft/network/play/server/S11PacketSpawnExperienceOrb", "fx");
-                }
-
             }
             hasInit = true;
         }

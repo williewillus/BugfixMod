@@ -1,4 +1,4 @@
-package williewillus.BugfixMod;
+package williewillus.BugfixMod.mod;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -23,8 +23,4 @@ public class BFMProper {
             MinecraftForge.EVENT_BUS.register(new ClientEvents());
         }
     }
-
-
-
-
 }

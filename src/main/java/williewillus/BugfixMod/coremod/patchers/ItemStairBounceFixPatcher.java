@@ -1,10 +1,10 @@
-package williewillus.BugfixMod.patchers;
+package williewillus.BugfixMod.coremod.patchers;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodInsnNode;
-import williewillus.BugfixMod.MappingRegistry;
+import williewillus.BugfixMod.coremod.MappingRegistry;
 
 import java.util.Iterator;
 

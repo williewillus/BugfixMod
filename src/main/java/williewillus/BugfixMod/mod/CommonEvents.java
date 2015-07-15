@@ -1,4 +1,4 @@
-package williewillus.BugfixMod;
+package williewillus.BugfixMod.mod;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.monster.IMob;
@@ -12,7 +12,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
  */
 public class CommonEvents {
     @SubscribeEvent
-    public void livingHurtEvent(LivingHurtEvent evt) {
+    public void mobDing(LivingHurtEvent evt) {
         if (evt.entityLiving instanceof IMob && "arrow".equals(evt.source.getDamageType())) {
             EntityDamageSourceIndirect src = ((EntityDamageSourceIndirect) evt.source);
             if (src.getEntity() instanceof EntityPlayerMP) {
